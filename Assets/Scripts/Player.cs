@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -8,17 +9,25 @@ public class Player : MonoBehaviour
     private int gameState = 0;
 
     private Vector3 point;
-    private float time;
-    
+    private float time, cdtime;
+    Animator animator;
+
+    public int HP = 100, Score;
+    public GameObject Blood, canvas;
+
     // Start is called before the first frame update
     void Start()
     {
+        animator = gameObject.transform.GetChild(0).gameObject.transform.GetComponent<Animator>();
         SetGameState(IDLE);
     }
 
     // Update is called once per frame
     void Update()
     {
+        Blood.GetComponent<RectTransform>().sizeDelta = new Vector2(HP, 1f);
+        canvas.transform.LookAt(Camera.main.transform);
+        cdtime += Time.deltaTime;
         if (Input.GetMouseButton(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -32,8 +41,21 @@ public class Player : MonoBehaviour
                 else SetGameState(WALK);
                 time = Time.realtimeSinceStartup;
                 }
+                if (!hit.collider.CompareTag("map") && !hit.collider.CompareTag("Player"))
+                {
+                    point = hit.point;
+                    point.y = 0f;
+                    SetGameState(RUN);
+                    time = Time.realtimeSinceStartup;
+                }
             }
         }
+        if (Input.GetKeyDown(KeyCode.Space) && cdtime>2)
+        {
+            animator.Play("Attack");
+            cdtime = 0;
+        }
+        if (HP < 0) SceneManager.LoadScene(0);
     }
 
     void FixedUpdate()
