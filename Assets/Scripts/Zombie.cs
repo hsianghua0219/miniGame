@@ -9,6 +9,7 @@ public class Zombie : MonoBehaviour
     private float v3m, time = 10;
     private bool lookplayer = false;
     private bool stop = false;
+    private int HP = 100;
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +60,7 @@ public class Zombie : MonoBehaviour
     }
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player")) collision.gameObject.GetComponent<Player>().HP -= 1;
+        if (collision.gameObject.CompareTag("Player")) collision.gameObject.GetComponent<UserPlayer>().HP -= 1;
     }
     private void OnCollisionExit(Collision collision)
     {

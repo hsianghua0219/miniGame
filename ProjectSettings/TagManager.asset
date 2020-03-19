@@ -6,6 +6,7 @@ TagManager:
   tags:
   - map
   - Zombie
+  - ScoreBox
   layers:
   - Default
   - TransparentFX
