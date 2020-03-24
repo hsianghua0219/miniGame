@@ -4,18 +4,26 @@ class Server {
   constructor(port) {
     this.clients = []
     this.users = []
+    this.Zombie = []
+    this.ZombieId = 1
     this.userUniqueId = 1
     this.ws = new WebSocket.Server({ port: port })
     this.ws.on('connection',this.connectionListener.bind(this))
     p(`server running at port ${port}\n`)
+    setInterval((()=>{
+      var zombie = createZombie()
+      this.Zombie.push(zombie)
+      this.broadcast(ws, JSON.stringify({
+        Type: 'createZombie',
+        Data: JSON.stringify({
+        })
+      }))
+    }).bind(this),1000)
   }
 
-  /** Initializing the client when connecting */
   connectionListener(ws, request) {
-    // 掃除処理
     this.clients = this.clients.filter(c => c.readyState === 1)
 
-    // socketに名前をつける
     ws.name = ws._socket.remoteAddress + ":" + `${Math.random()}`.slice(2, 14)
     this.clients.push(ws)
     p(`Join ${ws.name}`)
@@ -24,6 +32,11 @@ class Server {
     ws.on('message', data => {
       let d = JSON.parse(data)
       switch(d.Type){
+      case 'killZombie':
+        let msg = JSON.parse(d.Data)
+        this.zombie = this.zombie.filter(c => c.Id !== msg.ZombieId)
+        this.broadcast(ws, data)
+        break
       case 'updateUser':
         let msg = JSON.parse(d.Data)
         this.users = this.users.filter(c => c.Id !== msg.User.Id)
@@ -31,7 +44,6 @@ class Server {
         this.broadcast(ws, data)
         break
       case 'gameStart':
-        // 参加
         let c = this.createUser(d.Data, ws.name)
         this.users.push(c)
         this.emit(ws, {
@@ -65,11 +77,23 @@ class Server {
       Id: this.userUniqueId++,
       WsName: WsName === undefined? "" : WsName,
       Name: name === undefined? "" : name,
-      Hp: 10,
+      HP: 100,
       Power: 0,
       Angle: 0,
       X: -8 + round(Math.random() * 16, 1000),
-      Y: -8 + round(Math.random() * 16, 1000),
+      Z: -8 + round(Math.random() * 16, 1000),
+      IsDash: false
+    }
+  }
+
+  createZombie(){
+    return {
+      Id: this.ZombieId++,
+      HP: 100,
+      Power: 0,
+      Angle: 0,
+      X: -8 + round(Math.random() * 16, 1000),
+      Z: -8 + round(Math.random() * 16, 1000),
       IsDash: false
     }
   }
@@ -78,7 +102,6 @@ class Server {
     ws.send(JSON.stringify(data))
   }
 
-  /** Push to other clients */
   broadcast(sender, message) {
     for (let c of this.clients) {
       if (c.readyState === 1) {
@@ -87,7 +110,6 @@ class Server {
     }
   }
 
-  /** close server */
   close() {
     this.server.close()
   }

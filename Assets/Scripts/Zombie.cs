@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
-    private GameObject Player;
+    public GameObject Player;
     private Vector3 v3s, v3e;
     private float v3m, time = 10;
     private bool lookplayer = false;
     private bool stop = false;
-    private int HP = 100;
+    public int HP = 100,Id;
 
     // Start is called before the first frame update
     void Start()
@@ -27,21 +27,23 @@ public class Zombie : MonoBehaviour
         {
             lookplayer = false;
             v3s = transform.position;
-            v3e = new Vector3(Random.Range(-100f, 100f), 2.5f, Random.Range(-100f, 100f));
+            v3e = new Vector3(Random.Range(-100f, 100f), 2f, Random.Range(-100f, 100f));
             v3m = Vector3.Distance(v3s, v3e);
             time = 0;
         }
 
         if (stop) return;
 
+        if(Player == null) lookplayer = false;
+
         if (lookplayer)
         {
             transform.position = Vector3.Lerp(transform.position, Player.transform.position, (Time.deltaTime * 1.5f));
-            transform.position = new Vector3(transform.position.x, 2.5f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
             transform.LookAt(new Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z));
         } else {
             transform.position = Vector3.Lerp(transform.position, v3e, (Time.deltaTime * 2f) / v3m);
-            transform.position = new Vector3(transform.position.x, 2.5f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
             transform.LookAt(new Vector3(v3e.x, transform.position.y, v3e.z));
         }
     }

@@ -21,7 +21,7 @@ public class CloneZombie : MonoBehaviour
         if (MaxZombie < 10)
         {
             GameObject Clone = Object.Instantiate(Zombie) as GameObject;
-            Clone.transform.Translate(Random.Range(-100f,100f), 2.5f, Random.Range(-100f, 100f));
+            Clone.transform.Translate(transform.position.x + Random.Range(-50f,50f), 2f, transform.position.z + Random.Range(-50f, 50f));
             time = 0;
             MaxZombie++;
         }

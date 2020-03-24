@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public float ShotCoolTime = 5;
-    float lastShotTime_;
+    private const int IDLE = 0, WALK = 1, RUN = 2;
+    private int gameState = 0;
 
-    /// <summary>
-    /// 移動可能な制限距離
-    /// </summary>
-    public float MoveDistance = 19;
+    private Vector3 point;
+    private float time, cdtime;
+    public GameObject ScoreUI;
 
     public UserPlayer UserPlayer { get; private set; }
 
@@ -19,40 +19,78 @@ public class PlayerController : MonoBehaviour
         UserPlayer = player;
     }
 
+    void Start()
+    {
+        SetGameState(IDLE);
+    }
+
     void Update()
     {
-        if (UserPlayer == null)
+        if (UserPlayer == null) return;
+
+        ScoreUI.GetComponent<Text>().text = "" + UserPlayer.Score;
+        cdtime += Time.deltaTime;
+        if (Input.GetMouseButton(0))
         {
-            return;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                if (hit.collider.CompareTag("map"))
+                {
+                    point = hit.point;
+                    UserPlayer.transform.LookAt(new Vector3(point.x, UserPlayer.transform.position.y, point.z));
+                    if (Time.realtimeSinceStartup - time <= 0.2f) SetGameState(RUN);
+                    else SetGameState(WALK);
+                    time = Time.realtimeSinceStartup;
+                }
+                if (hit.collider.CompareTag("Zombie"))
+                {
+                    point = hit.point;
+                    point.y = 0f;
+                    SetGameState(RUN);
+                    time = Time.realtimeSinceStartup;
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && cdtime > 2)
+        {
+            //animator.Play("Attack");
+            cdtime = 0;
         }
 
-        var angle = 0f;
-        if (Input.GetKey(KeyCode.D))
-        {
-            angle = 1;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            angle = -1;
-        }
-        if (angle != 0)
-        {
-            UserPlayer.SetQuaternion(UserPlayer.transform.eulerAngles.y + angle);
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            GameEngine.Instance.Send(Message.ActionDamge, new ActionDamageMessage { UserId = UserPlayer.UserId, Damage = 1 });
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && lastShotTime_ + ShotCoolTime < Time.time)
-        {
-            lastShotTime_ = Time.time;
-            GameEngine.Instance.Send(Message.ActionShot, new ActionShotMessage { UserId = UserPlayer.UserId });
-        }
+    }
 
-        var move = UserPlayer.transform.TransformDirection(Vector3.forward);
-        if (Vector3.Distance(Vector3.zero, UserPlayer.transform.position + move) < MoveDistance)
+    void FixedUpdate()
+    {
+        if (UserPlayer == null) return;
+        switch (gameState)
         {
-            UserPlayer.SetMovePosition(UserPlayer.transform.position + move, Input.GetKey(KeyCode.W));
+            case IDLE: break;
+            case WALK: Move(0.1f); break;
+            case RUN: Move(0.5f); break;
         }
     }
+
+    void SetGameState(int state)
+    {
+        switch (state)
+        {
+            case IDLE: break;
+            case WALK: break;
+            case RUN: break;
+        }
+        gameState = state;
+    }
+
+    void Move(float speed)
+    {
+        if (Mathf.Abs(Vector3.Distance(point, UserPlayer.transform.position)) >= 1.3f)
+        {
+            CharacterController controller = UserPlayer.GetComponent<CharacterController>();
+            Vector3 v = Vector3.ClampMagnitude(point - UserPlayer.transform.position, speed);
+            controller.Move(v);
+        }
+        else SetGameState(IDLE);
+    }
+
 }
