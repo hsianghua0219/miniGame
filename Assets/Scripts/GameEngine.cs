@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using UnityEngine;
 
 public class GameEngine : MonoBehaviour
@@ -34,7 +35,11 @@ public class GameEngine : MonoBehaviour
 
     void Start() { Init(); }
 
-    public void Init() { client_ = new WsClient("ws://localhost:3000") { OnMessage = OnMessage }; }
+    public void Init() {
+        string hostname = Dns.GetHostName();
+        IPAddress[] adrList = Dns.GetHostAddresses(hostname);
+        client_ = new WsClient("ws://"+ adrList[1].ToString() + ":3000") { OnMessage = OnMessage };
+    }
 
     void OnApplicationQuit() { client_.Dispose(); }
 
