@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
-    public GameObject Player;
+    public GameObject Player, Blood;
     private Vector3 v3s, v3e;
     private float v3m, time = 10;
     private bool lookplayer = false;
@@ -32,9 +32,9 @@ public class Zombie : MonoBehaviour
             time = 0;
         }
 
-        if (stop) return;
+        if(Player == null) stop = false;
 
-        if(Player == null) lookplayer = false;
+        if (stop) return;
 
         if (lookplayer)
         {
@@ -62,7 +62,12 @@ public class Zombie : MonoBehaviour
     }
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player")) collision.gameObject.GetComponent<UserPlayer>().HP -= 1;
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<UserPlayer>().HP -= 1;
+            GameObject Clone = Object.Instantiate(Blood) as GameObject;
+            Clone.transform.Translate(Player.transform.position);
+        }
     }
     private void OnCollisionExit(Collision collision)
     {

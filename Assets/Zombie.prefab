@@ -423,6 +423,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d720c4c26967164b9037749da0bfcd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 0}
+  Blood: {fileID: 7343631379583260883, guid: 4c3d346051758b54a8023877bcbc9b41, type: 3}
+  HP: 100
+  Id: 0
 --- !u!65 &3750944910783947381
 BoxCollider:
   m_ObjectHideFlags: 0

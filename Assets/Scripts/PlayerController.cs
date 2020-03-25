@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space) && cdtime > 2)
         {
-            //animator.Play("Attack");
+            UserPlayer.Anima.Play("Attack");
             cdtime = 0;
         }
 

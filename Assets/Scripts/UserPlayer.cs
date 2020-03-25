@@ -10,7 +10,6 @@ public class UserPlayer : MonoBehaviour
     public int HP = 100;
     Quaternion targetQuaternion_;
     Vector3 movePosition_;
-    Animator animator;
 
     public Animator Anima;
     public int Power;
@@ -21,7 +20,7 @@ public class UserPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animator = gameObject.transform.GetChild(0).gameObject.transform.GetComponent<Animator>();
+        Anima = gameObject.transform.GetChild(0).gameObject.transform.GetComponent<Animator>();
     }
 
     // Update is called once per frame

@@ -8,17 +8,17 @@ class Server {
     this.ZombieId = 1
     this.userUniqueId = 1
     this.ws = new WebSocket.Server({ port: port })
-    this.ws.on('connection',this.connectionListener.bind(this))
+    this.ws.on('connection', this.connectionListener.bind(this))
     p(`server running at port ${port}\n`)
-    setInterval((()=>{
-      var zombie = createZombie()
+    /*setInterval((() => {
+      let zombie = createZombie()
       this.Zombie.push(zombie)
       this.broadcast(ws, JSON.stringify({
         Type: 'createZombie',
         Data: JSON.stringify({
         })
       }))
-    }).bind(this),1000)
+    }).bind(this), 1000)*/
   }
 
   connectionListener(ws, request) {
@@ -31,31 +31,31 @@ class Server {
 
     ws.on('message', data => {
       let d = JSON.parse(data)
-      switch(d.Type){
-      case 'killZombie':
-        let msg = JSON.parse(d.Data)
-        this.zombie = this.zombie.filter(c => c.Id !== msg.ZombieId)
-        this.broadcast(ws, data)
-        break
-      case 'updateUser':
-        let msg = JSON.parse(d.Data)
-        this.users = this.users.filter(c => c.Id !== msg.User.Id)
-        this.users.push(msg.User)
-        this.broadcast(ws, data)
-        break
-      case 'gameStart':
-        let c = this.createUser(d.Data, ws.name)
-        this.users.push(c)
-        this.emit(ws, {
-          Type: 'gameStart',
-          Data: JSON.stringify({
-            Users: this.users,
-            Player: c,
-          }),
-        })
-        break
-      default:
-        this.broadcast(ws, data)
+      switch (d.Type) {
+        /*case 'killZombie':
+          let msg = JSON.parse(d.Data)
+          this.zombie = this.zombie.filter(c => c.Id !== msg.ZombieId)
+          this.broadcast(ws, data)
+          break*/
+        case 'updateUser':
+          let msg = JSON.parse(d.Data)
+          this.users = this.users.filter(c => c.Id !== msg.User.Id)
+          this.users.push(msg.User)
+          this.broadcast(ws, data)
+          break
+        case 'gameStart':
+          let c = this.createUser(d.Data, ws.name)
+          this.users.push(c)
+          this.emit(ws, {
+            Type: 'gameStart',
+            Data: JSON.stringify({
+              Users: this.users,
+              Player: c,
+            }),
+          })
+          break
+        default:
+          this.broadcast(ws, data)
       }
     })
 
@@ -72,11 +72,11 @@ class Server {
     })
   }
 
-  createUser(name, WsName){
+  createUser(name, WsName) {
     return {
       Id: this.userUniqueId++,
-      WsName: WsName === undefined? "" : WsName,
-      Name: name === undefined? "" : name,
+      WsName: WsName === undefined ? "" : WsName,
+      Name: name === undefined ? "" : name,
       HP: 100,
       Power: 0,
       Angle: 0,
@@ -86,7 +86,7 @@ class Server {
     }
   }
 
-  createZombie(){
+  createZombie() {
     return {
       Id: this.ZombieId++,
       HP: 100,
@@ -98,7 +98,7 @@ class Server {
     }
   }
 
-  emit(ws, data){
+  emit(ws, data) {
     ws.send(JSON.stringify(data))
   }
 
@@ -116,7 +116,7 @@ class Server {
 }
 
 function round(value, base) {
-    return Math.round(value * base) / base;
+  return Math.round(value * base) / base;
 }
 
 function p(message) {
