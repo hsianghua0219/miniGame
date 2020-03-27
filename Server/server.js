@@ -10,15 +10,41 @@ class Server {
     this.ws = new WebSocket.Server({ port: port })
     this.ws.on('connection', this.connectionListener.bind(this))
     p(`server running at port ${port}\n`)
-    /*setInterval((() => {
-      let zombie = createZombie()
-      this.Zombie.push(zombie)
-      this.broadcast(ws, JSON.stringify({
-        Type: 'createZombie',
+    setInterval((() => {
+      if(this.Zombie.length < 10){
+        var zombie = this.createZombie()
+        this.Zombie.push(zombie)
+        this.broadcast(this.ws, JSON.stringify({
+          Type: 'createZombie',
+          Data: JSON.stringify({
+            zombie: this.Zombie,
+          })
+        }))
+        p(`Zombie${zombie.Id} join`)
+      }
+    }).bind(this), 1000)
+    setInterval((() => {
+      for(let i=0;i<this.Zombie.length;i++) {
+        this.Zombie[i].X = Math.random() * 100 - 50
+        this.Zombie[i].Z = Math.random() * 100 - 50
+      }
+      this.broadcast(this.ws, JSON.stringify({
+        Type: 'ZombieMove',
         Data: JSON.stringify({
+          zombie: this.Zombie,
         })
       }))
-    }).bind(this), 1000)*/
+    }).bind(this), 10000)
+  }     
+
+  createZombie() {
+    return {
+      Id: this.ZombieId++,
+      HP: 100,
+      X: Math.random() * 100 - 50,
+      Z: Math.random() * 100 - 50,
+      LockPlayer: null,
+    }
   }
 
   connectionListener(ws, request) {
@@ -50,6 +76,7 @@ class Server {
             Type: 'gameStart',
             Data: JSON.stringify({
               Users: this.users,
+              zombie: this.Zombie,
               Player: c,
             }),
           })
@@ -77,18 +104,6 @@ class Server {
       Id: this.userUniqueId++,
       WsName: WsName === undefined ? "" : WsName,
       Name: name === undefined ? "" : name,
-      HP: 100,
-      Power: 0,
-      Angle: 0,
-      X: -8 + round(Math.random() * 16, 1000),
-      Z: -8 + round(Math.random() * 16, 1000),
-      IsDash: false
-    }
-  }
-
-  createZombie() {
-    return {
-      Id: this.ZombieId++,
       HP: 100,
       Power: 0,
       Angle: 0,

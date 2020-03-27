@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 0.1, y: 0.049999997, z: 0.1}
   m_Children: []
   m_Father: {fileID: 3750944910783947376}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3750944909913295746
 MeshFilter:
@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 3750944909969320424}
   - component: {fileID: 3750944909969320421}
   - component: {fileID: 3750944909969320422}
+  - component: {fileID: 8538556584013256681}
   m_Layer: 0
   m_Name: L
   m_TagString: Untagged
@@ -107,7 +108,7 @@ Transform:
   m_LocalScale: {x: 0.3, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 3750944910783947376}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -70}
 --- !u!33 &3750944909969320421
 MeshFilter:
@@ -154,6 +155,25 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!95 &8538556584013256681
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3750944909969320425}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 79b79bb62ce1a7f49ae059c1814bde74, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3750944910374845856
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +204,7 @@ Transform:
   m_LocalScale: {x: 0.1, y: 0.05, z: 0.1}
   m_Children: []
   m_Father: {fileID: 3750944910783947376}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3750944910374845884
 MeshFilter:
@@ -261,7 +281,7 @@ Transform:
   m_LocalScale: {x: 1.2, y: 0.5, z: 1.2}
   m_Children: []
   m_Father: {fileID: 3750944910783947376}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3750944910559801119
 MeshFilter:
@@ -322,13 +342,14 @@ GameObject:
   - component: {fileID: 3750944910783947379}
   - component: {fileID: 3750944910783947663}
   - component: {fileID: 3750944910783947381}
+  - component: {fileID: 4594538435121153257}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3750944910783947376
 Transform:
   m_ObjectHideFlags: 0
@@ -340,12 +361,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 2, z: 21.4}
   m_LocalScale: {x: 2, y: 4, z: 2}
   m_Children:
+  - {fileID: 3750944909969320424}
+  - {fileID: 3750944911155090368}
   - {fileID: 3750944910374845887}
   - {fileID: 3750944909913295749}
   - {fileID: 3750944911134896550}
   - {fileID: 3750944910559801090}
-  - {fileID: 3750944909969320424}
-  - {fileID: 3750944911155090368}
   - {fileID: 3750944910924579720}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -440,6 +461,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &4594538435121153257
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3750944910783947382}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1fbb216b3fb51824bb335e04fee1ed4b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3750944910924579721
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,7 +601,7 @@ Transform:
   m_LocalScale: {x: 0.24999997, y: 0.01, z: 0.1}
   m_Children: []
   m_Father: {fileID: 3750944910783947376}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3750944911134896547
 MeshFilter:
@@ -638,7 +678,7 @@ Transform:
   m_LocalScale: {x: 0.3, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 3750944910783947376}
-  m_RootOrder: 5
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 70}
 --- !u!33 &3750944911155090397
 MeshFilter:

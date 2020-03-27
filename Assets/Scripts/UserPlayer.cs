@@ -27,7 +27,10 @@ public class UserPlayer : MonoBehaviour
     void Update()
     {
         HP = Mathf.Clamp(HP, 0, 100);
-        if (IsDead) GameEngine.Instance.Send(Message.ActionDamge, new ActionDamageMessage { UserId = UserId, Damage = 1 });
+        if (IsDead)
+        {
+            GameEngine.Instance.Send(Message.ActionDamge, new ActionDamageMessage { UserId = UserId, Damage = 1 });
+        }
         Blood.GetComponent<RectTransform>().sizeDelta = new Vector2(HP, 1f);
         canvas.transform.LookAt(Camera.main.transform);
     }

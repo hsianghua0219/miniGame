@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         SetGameState(IDLE);
     }
 
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour
                     else SetGameState(WALK);
                     time = Time.realtimeSinceStartup;
                 }
-                if (hit.collider.CompareTag("Zombie"))
+                if (hit.collider.CompareTag("Zombie")&&hit.collider.CompareTag("Player"))
                 {
                     point = hit.point;
                     point.y = 0f;

@@ -10,6 +10,9 @@ public class Zombie : MonoBehaviour
     private bool lookplayer = false;
     private bool stop = false;
     public int HP = 100,Id;
+    public float X, Z;
+
+    int frameCount_;
 
     // Start is called before the first frame update
     void Start()
@@ -26,13 +29,13 @@ public class Zombie : MonoBehaviour
         if (time > 10)
         {
             lookplayer = false;
-            v3s = transform.position;
-            v3e = new Vector3(Random.Range(-100f, 100f), 2f, Random.Range(-100f, 100f));
-            v3m = Vector3.Distance(v3s, v3e);
             time = 0;
         }
+        v3s = transform.position;
+        v3e = new Vector3(X, 2f, Z);
+        v3m = Vector3.Distance(v3s, v3e);
 
-        if(Player == null) stop = false;
+        if (Player == null) stop = false;
 
         if (stop) return;
 
@@ -41,10 +44,14 @@ public class Zombie : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, Player.transform.position, (Time.deltaTime * 1.5f));
             transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
             transform.LookAt(new Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z));
-        } else {
+            GameEngine.Instance.Send(Message.ZombieLockPlayer, new UpdateZombieMessage { LockPlayer = Player });
+        }
+        else
+        {
             transform.position = Vector3.Lerp(transform.position, v3e, (Time.deltaTime * 2f) / v3m);
             transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
             transform.LookAt(new Vector3(v3e.x, transform.position.y, v3e.z));
+            GameEngine.Instance.Send(Message.ZombieLockPlayer, new UpdateZombieMessage { LockPlayer = null });
         }
     }
 
@@ -60,6 +67,7 @@ public class Zombie : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player")) stop = true;
     }
+
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -69,6 +77,7 @@ public class Zombie : MonoBehaviour
             Clone.transform.Translate(Player.transform.position);
         }
     }
+
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player")) stop = false;
