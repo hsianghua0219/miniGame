@@ -43,7 +43,8 @@ class Server {
       HP: 100,
       X: Math.random() * 100 - 50,
       Z: Math.random() * 100 - 50,
-      LockPlayer: null,
+      LockX: undefined,
+      LockZ: undefined,
     }
   }
 

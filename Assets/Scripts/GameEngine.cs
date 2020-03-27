@@ -87,14 +87,9 @@ public class GameEngine : MonoBehaviour
                     var data = JsonUtility.FromJson<UpdateZombieMessage>(msg.Data);
                     Debug.Log(msg.Data);
                     zombie_ = data.zombie;
-                    for (int i = 0; i <= zombie_.Count; i++)
-                    {
-                        var zombieID = FindZombie(zombie_[i].Id);
-                        if (zombieID != null)
-                        {
-                            zombieID.Player = zombie_[i].LockPlayer;
-                        }
-                    }
+                    ZombieData zombie = zombie_[zombie_.Count - 1];
+                    zombieList_[].LockX = zombie_[zombie.Id].LockX;
+                    zombieID.LockX = zombie_[i].LockX;
                 }
                 break;
             case Message.ActionDamge: 
@@ -298,9 +293,10 @@ struct UpdateUserMessage
 [Serializable]
 struct UpdateZombieMessage
 {
-    //public ZombieData ZombieData;
     public List<ZombieData> zombie;
-    public GameObject LockPlayer;
+    public int Id;
+    public float LockX;
+    public float LockZ;
 }
 
 [Serializable]
@@ -337,7 +333,8 @@ public struct ZombieData
     public int HP;
     public float X;
     public float Z;
-    public GameObject LockPlayer;
+    public float LockX;
+    public float LockY;
 }
 
 

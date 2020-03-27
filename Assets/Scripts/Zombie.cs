@@ -10,7 +10,7 @@ public class Zombie : MonoBehaviour
     private bool lookplayer = false;
     private bool stop = false;
     public int HP = 100,Id;
-    public float X, Z;
+    public float X, Z, LockX, LockZ;
 
     int frameCount_;
 
@@ -44,14 +44,19 @@ public class Zombie : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, Player.transform.position, (Time.deltaTime * 1.5f));
             transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
             transform.LookAt(new Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z));
-            GameEngine.Instance.Send(Message.ZombieLockPlayer, new UpdateZombieMessage { LockPlayer = Player });
+            GameEngine.Instance.Send(Message.ZombieLockPlayer, new UpdateZombieMessage { Id = Id, LockX = gameObject.transform.position.x, LockZ = gameObject.transform.position.z });
+        }
+        else if (LockX != 0 || LockZ != 0)
+        {
+            Vector3 LockXZ = new Vector3(LockX, 2f, LockZ);
+            transform.position = Vector3.Lerp(transform.position, LockXZ, (Time.deltaTime * 99f));
+            transform.LookAt(LockXZ);
         }
         else
         {
             transform.position = Vector3.Lerp(transform.position, v3e, (Time.deltaTime * 2f) / v3m);
             transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
             transform.LookAt(new Vector3(v3e.x, transform.position.y, v3e.z));
-            GameEngine.Instance.Send(Message.ZombieLockPlayer, new UpdateZombieMessage { LockPlayer = null });
         }
     }
 
