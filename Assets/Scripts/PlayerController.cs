@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 point;
     private float time, cdtime;
-    public GameObject ScoreUI;
+    public GameObject ScoreUI, Restart;
 
     public UserPlayer UserPlayer { get; private set; }
 
@@ -21,49 +21,55 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
         SetGameState(IDLE);
     }
 
     void Update()
     {
+        if (UserPlayer.HP <= 0) Restart.SetActive(true);
+
         if (UserPlayer == null) return;
 
         ScoreUI.GetComponent<Text>().text = "" + UserPlayer.Score;
         cdtime += Time.deltaTime;
-        if (Input.GetMouseButton(0))
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (hit.collider.CompareTag("map"))
             {
-                if (hit.collider.CompareTag("map"))
-                {
-                    point = hit.point;
-                    UserPlayer.transform.LookAt(new Vector3(point.x, UserPlayer.transform.position.y, point.z));
-                    if (Time.realtimeSinceStartup - time <= 0.2f) SetGameState(RUN);
-                    else SetGameState(WALK);
-                    time = Time.realtimeSinceStartup;
-                }
-                if (hit.collider.CompareTag("Zombie")&&hit.collider.CompareTag("Player"))
-                {
-                    point = hit.point;
-                    point.y = 0f;
-                    SetGameState(RUN);
-                    time = Time.realtimeSinceStartup;
-                }
+                point = hit.point;
+                UserPlayer.transform.LookAt(new Vector3(point.x, UserPlayer.transform.position.y, point.z));
+                if (Time.realtimeSinceStartup - time <= 0.2f) SetGameState(RUN);
+                else SetGameState(WALK);
+                time = Time.realtimeSinceStartup;
+            }
+            if (hit.collider.CompareTag("Zombie")&&hit.collider.CompareTag("Player"))
+            {
+                point = hit.point;
+                point.y = 0f;
+                SetGameState(RUN);
+                time = Time.realtimeSinceStartup;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Space) && cdtime > 2)
+        if (Input.GetMouseButtonDown(0) && cdtime > 0.45)
         {
+            UserPlayer.Anima.Play("Standby");
+        }
+        if (Input.GetMouseButtonUp(0) && cdtime > 0.15)
+        {
+            UserPlayer.Weapon.AddComponent<Rigidbody>();
+            Rigidbody rigidbody = UserPlayer.Weapon.gameObject.GetComponent<Rigidbody>();
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
             UserPlayer.Anima.Play("Attack");
             cdtime = 0;
         }
+        if (cdtime > 1)
+        {
+            Rigidbody rigidbody = UserPlayer.Weapon.gameObject.GetComponent<Rigidbody>();
+            Destroy(rigidbody);
+        }
 
-    }
-
-    void FixedUpdate()
-    {
-        if (UserPlayer == null) return;
         switch (gameState)
         {
             case IDLE: break;
@@ -93,5 +99,4 @@ public class PlayerController : MonoBehaviour
         }
         else SetGameState(IDLE);
     }
-
 }

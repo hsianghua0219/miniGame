@@ -11,10 +11,12 @@ public class UserPlayer : MonoBehaviour
     Quaternion targetQuaternion_;
     Vector3 movePosition_;
 
+    public Vector3 nowV3;
+
     public Animator Anima;
     public int Power;
 
-    public GameObject Blood, canvas;
+    public GameObject Blood, canvas, Weapon;
     public int Score;
 
     // Start is called before the first frame update

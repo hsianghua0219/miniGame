@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameEngine : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class GameEngine : MonoBehaviour
     WsClient client_;
     List<UserPlayer> playerList_ = new List<UserPlayer>();
     List<UserData> users_ = new List<UserData>();
-    int frameCount_;
+    float frameCount_;
 
     public List<Zombie> zombieList_ = new List<Zombie>();
     List<ZombieData> zombie_ = new List<ZombieData>();
@@ -41,7 +42,7 @@ public class GameEngine : MonoBehaviour
 
     void OnApplicationQuit() { client_.Dispose(); }
 
-    void FixedUpdate()
+    void Update()
     {
         if (messages_.Count > 0)
         {
@@ -66,30 +67,24 @@ public class GameEngine : MonoBehaviour
                 break;
             case Message.ZombieMove:
                 {
-                    Debug.Log("Zombie Move");
                     var data = JsonUtility.FromJson<ZombieMessage>(msg.Data);
-                    Debug.Log(msg.Data);
                     zombie_ = data.zombie;
                     for (int i = 0; i <= zombie_.Count; i++)
                     {
                         var zombieID = FindZombie(zombie_[i].Id);
                         if (zombieID != null)
                         {
-                            zombieID.X = zombie_[i].X;
-                            zombieID.Z = zombie_[i].Z;
+                            zombieID.moveX = zombie_[i].moveX;
+                            zombieID.moveZ = zombie_[i].moveZ;
                         }
                     }
                 }
                 break;
             case Message.ZombieLockPlayer:
                 {
-                    Debug.Log("Zombie Lock");
                     var data = JsonUtility.FromJson<UpdateZombieMessage>(msg.Data);
-                    Debug.Log(msg.Data);
-                    zombie_ = data.zombie;
-                    ZombieData zombie = zombie_[zombie_.Count - 1];
-                    zombieList_[].LockX = zombie_[zombie.Id].LockX;
-                    zombieID.LockX = zombie_[i].LockX;
+                    var zombieID = FindZombie(data.zombie.Id);
+                    if(zombieID.Player == null) zombieID.transform.position = new Vector3(data.zombie.X, 2f, data.zombie.Z);
                 }
                 break;
             case Message.ActionDamge: 
@@ -122,14 +117,13 @@ public class GameEngine : MonoBehaviour
                 {
                     var data = JsonUtility.FromJson<UpdateUserMessage>(msg.Data);
                     var player = FindUserPlayer(data.User.Id);
-                    if (player != null && player != gameObject)
+                    if (player != null && player != Player.UserPlayer)
                     {
-                        CharacterController controller = player.GetComponent<CharacterController>();
-                        controller.transform.position = new Vector3(data.User.X, player.transform.position.y, data.User.Z);
-                        controller.transform.rotation = Quaternion.Euler(0, data.User.Angle, 0);
+                        player.transform.position = new Vector3(data.User.X, player.transform.position.y, data.User.Z);
+                        player.transform.rotation = Quaternion.Euler(0, data.User.Angle, 0);
                         player.HP = data.User.HP;
                     }
-                    else
+                    else if(player == null)
                     {
                         users_.Add(data.User);
                         playerList_.Add(CreateUserPlayer(data.User));
@@ -188,7 +182,7 @@ public class GameEngine : MonoBehaviour
 
     void UpdateServerUser()
     {
-        if (frameCount_ % 3 == 0)
+        if (frameCount_ % 2 == 0)
         {
             var msg = new UpdateUserMessage();
             var c = FindUser(Player.UserPlayer.UserId);
@@ -212,6 +206,11 @@ public class GameEngine : MonoBehaviour
     public UserData FindUser(int id)
     {
         return users_.First(u => u.Id == id);
+    }
+
+    public ZombieData FindZombieData(int id)
+    {
+        return zombie_.First(u => u.Id == id);
     }
 
     public UserPlayer FindUserPlayer(int id)
@@ -248,6 +247,8 @@ public class GameEngine : MonoBehaviour
         zombie.HP = z.HP;
         return zombie;
     }
+
+    public void RestartGAME() => SceneManager.LoadScene(0);
 }
 
 public partial struct Message
@@ -293,10 +294,7 @@ struct UpdateUserMessage
 [Serializable]
 struct UpdateZombieMessage
 {
-    public List<ZombieData> zombie;
-    public int Id;
-    public float LockX;
-    public float LockZ;
+    public ZombieData zombie;
 }
 
 [Serializable]
@@ -333,8 +331,8 @@ public struct ZombieData
     public int HP;
     public float X;
     public float Z;
-    public float LockX;
-    public float LockY;
+    public float moveX;
+    public float moveZ;
 }
 
 

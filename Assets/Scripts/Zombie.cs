@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
-    public GameObject Player, Blood;
+    public GameObject Player, Blood, BloodUI, canvas, ScoreBox;
     private Vector3 v3s, v3e;
-    private float v3m, time = 10;
+    private float v3m, time = 10, locktime;
     private bool lookplayer = false;
-    private bool stop = false;
-    public int HP = 100,Id;
-    public float X, Z, LockX, LockZ;
+    public int Id, HP = 100;
+    public float moveX, moveZ;
+    Animator Anima;
 
-    int frameCount_;
+    private int frameCount_;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        Anima = gameObject.transform.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,35 +28,43 @@ public class Zombie : MonoBehaviour
         time += Time.deltaTime;
         if (time > 10)
         {
+            if(lookplayer) Anima.Play("ZombieIDE");
             lookplayer = false;
             time = 0;
         }
         v3s = transform.position;
-        v3e = new Vector3(X, 2f, Z);
+        v3e = new Vector3(moveX, 2f, moveZ);
         v3m = Vector3.Distance(v3s, v3e);
-
-        if (Player == null) stop = false;
-
-        if (stop) return;
 
         if (lookplayer)
         {
             transform.position = Vector3.Lerp(transform.position, Player.transform.position, (Time.deltaTime * 1.5f));
-            transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
             transform.LookAt(new Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z));
-            GameEngine.Instance.Send(Message.ZombieLockPlayer, new UpdateZombieMessage { Id = Id, LockX = gameObject.transform.position.x, LockZ = gameObject.transform.position.z });
-        }
-        else if (LockX != 0 || LockZ != 0)
-        {
-            Vector3 LockXZ = new Vector3(LockX, 2f, LockZ);
-            transform.position = Vector3.Lerp(transform.position, LockXZ, (Time.deltaTime * 99f));
-            transform.LookAt(LockXZ);
+
+            if (frameCount_ % 7 == 0)
+            {
+                var msg = new UpdateZombieMessage();
+                var c = GameEngine.Instance.FindZombieData(Id);
+                c.X = transform.position.x;
+                c.Z = transform.position.z;
+                msg.zombie = c;
+                GameEngine.Instance.Send(Message.ZombieLockPlayer, msg);
+            }
+            locktime += Time.deltaTime;
         }
         else
         {
             transform.position = Vector3.Lerp(transform.position, v3e, (Time.deltaTime * 2f) / v3m);
-            transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
             transform.LookAt(new Vector3(v3e.x, transform.position.y, v3e.z));
+        }
+
+        HP = Mathf.Clamp(HP, 0, 100);
+        canvas.transform.rotation = Camera.main.transform.rotation;
+        BloodUI.GetComponent<RectTransform>().sizeDelta = new Vector2(HP, 1f);
+        if (HP == 0) {
+            GameObject Clone = Object.Instantiate(ScoreBox) as GameObject;
+            Clone.transform.Translate(this.gameObject.transform.position);
+            Destroy(gameObject);
         }
     }
 
@@ -68,14 +76,11 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player")) stop = true;
-    }
+    private void OnTriggerEnter(Collider other) { if (other.CompareTag("Player")) Anima.Play("ZombieAttack"); }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && HP>0)
         {
             collision.gameObject.GetComponent<UserPlayer>().HP -= 1;
             GameObject Clone = Object.Instantiate(Blood) as GameObject;
@@ -83,8 +88,11 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player")) stop = false;
+        if (collision.gameObject.CompareTag("Weapon"))
+        {
+            HP -= 35;
+        }
     }
 }

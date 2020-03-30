@@ -25,8 +25,8 @@ class Server {
     }).bind(this), 1000)
     setInterval((() => {
       for(let i=0;i<this.Zombie.length;i++) {
-        this.Zombie[i].X = Math.random() * 100 - 50
-        this.Zombie[i].Z = Math.random() * 100 - 50
+        this.Zombie[i].moveX = Math.random() * 100 - 50
+        this.Zombie[i].moveZ = Math.random() * 100 - 50
       }
       this.broadcast(this.ws, JSON.stringify({
         Type: 'ZombieMove',
@@ -41,10 +41,10 @@ class Server {
     return {
       Id: this.ZombieId++,
       HP: 100,
+      moveX: Math.random() * 100 - 50,
+      moveZ: Math.random() * 100 - 50,
       X: Math.random() * 100 - 50,
       Z: Math.random() * 100 - 50,
-      LockX: undefined,
-      LockZ: undefined,
     }
   }
 
@@ -64,6 +64,13 @@ class Server {
           this.zombie = this.zombie.filter(c => c.Id !== msg.ZombieId)
           this.broadcast(ws, data)
           break*/
+        case 'ZombieLockPlayer':
+          let z = JSON.parse(d.Data)
+          let zb = z.zombie
+          this.Zombie[zb.Id-1].X = zb.X
+          this.Zombie[zb.Id-1].Z = zb.Z
+          this.broadcast(ws, data)
+          break
         case 'updateUser':
           let msg = JSON.parse(d.Data)
           this.users = this.users.filter(c => c.Id !== msg.User.Id)

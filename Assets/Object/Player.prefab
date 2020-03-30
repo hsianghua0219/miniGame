@@ -550,7 +550,7 @@ GameObject:
   - component: {fileID: 5076111209290823234}
   - component: {fileID: 5076111209290823235}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -563,13 +563,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5076111209290823237}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0.5735764, y: 0, z: 0, w: 0.8191521}
   m_LocalPosition: {x: 0.08, y: -0.8, z: -0.25}
   m_LocalScale: {x: 5.4291687, y: 14.881113, z: 14.438556}
   m_Children: []
   m_Father: {fileID: 7444643932004855579}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -70, y: 0, z: 0}
 --- !u!108 &5076111209290823235
 Light:
   m_ObjectHideFlags: 0
@@ -582,8 +582,8 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 0.91830474, b: 0.5896226, a: 1}
   m_Intensity: 4
-  m_Range: 60
-  m_SpotAngle: 50
+  m_Range: 50
+  m_SpotAngle: 80
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -763,6 +763,7 @@ MonoBehaviour:
   Power: 10
   Blood: {fileID: 5076111210267481718}
   canvas: {fileID: 5076111210891191998}
+  Weapon: {fileID: 5076111209772351963}
   Score: 0
 --- !u!1 &5076111209772351963
 GameObject:
@@ -777,8 +778,8 @@ GameObject:
   - component: {fileID: 5076111209772351958}
   - component: {fileID: 5076111209772351961}
   m_Layer: 0
-  m_Name: Cube
-  m_TagString: Untagged
+  m_Name: Weapon
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -854,7 +855,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.042297408, y: 0.112045586, z: 0.20793322}
 --- !u!1 &5076111210267481718
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,7 +883,7 @@ RectTransform:
   m_GameObject: {fileID: 5076111210267481718}
   m_LocalRotation: {x: -0, y: -0, z: 8.881784e-16, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.05, y: 1, z: 1}
+  m_LocalScale: {x: 0.02, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 5076111210891191994}
   m_RootOrder: 1
@@ -1108,7 +1109,7 @@ RectTransform:
   m_GameObject: {fileID: 5076111210506345530}
   m_LocalRotation: {x: -0, y: -0, z: 8.881784e-16, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.049999997, y: 1, z: 1}
+  m_LocalScale: {x: 0.02, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 5076111210891191994}
   m_RootOrder: 0
@@ -1279,7 +1280,7 @@ RectTransform:
   m_GameObject: {fileID: 5076111210891191998}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.25, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5076111210506345531}
   - {fileID: 5076111210267481719}
@@ -1289,8 +1290,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1}
-  m_SizeDelta: {x: 5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0.75}
+  m_SizeDelta: {x: 2, y: 0.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5076111210891191997
 Canvas:
@@ -1442,7 +1443,7 @@ GameObject:
   - component: {fileID: 6201165617812963019}
   - component: {fileID: 1250203489602803065}
   m_Layer: 0
-  m_Name: Directional Light (1)
+  m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
