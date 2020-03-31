@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     public UserPlayer UserPlayer { get; private set; }
 
+    public float Vx, Vz;
+
     public void Init(UserPlayer player)
     {
         UserPlayer = player;
@@ -27,9 +29,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (UserPlayer.HP <= 0) Restart.SetActive(true);
+        if(UserPlayer == null) return;
 
-        if (UserPlayer == null) return;
+        if (UserPlayer.HP <= 0)
+        {
+            Restart.SetActive(true);
+            return;
+        }
 
         ScoreUI.GetComponent<Text>().text = "" + UserPlayer.Score;
         cdtime += Time.deltaTime;
@@ -64,7 +70,7 @@ public class PlayerController : MonoBehaviour
             UserPlayer.Anima.Play("Attack");
             cdtime = 0;
         }
-        if (cdtime > 1)
+        if (cdtime > 0.45)
         {
             Rigidbody rigidbody = UserPlayer.Weapon.gameObject.GetComponent<Rigidbody>();
             Destroy(rigidbody);
@@ -73,8 +79,8 @@ public class PlayerController : MonoBehaviour
         switch (gameState)
         {
             case IDLE: break;
-            case WALK: Move(0.1f); break;
-            case RUN: Move(0.5f); break;
+            case WALK: Move(10f); break;
+            case RUN: Move(20f); break;
         }
     }
 
@@ -94,7 +100,7 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(Vector3.Distance(point, UserPlayer.transform.position)) >= 1.3f)
         {
             CharacterController controller = UserPlayer.GetComponent<CharacterController>();
-            Vector3 v = Vector3.ClampMagnitude(point - UserPlayer.transform.position, speed);
+            Vector3 v = Vector3.ClampMagnitude(point - UserPlayer.transform.position, speed*Time.deltaTime);
             controller.Move(v);
         }
         else SetGameState(IDLE);

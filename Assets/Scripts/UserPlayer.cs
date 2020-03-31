@@ -14,10 +14,11 @@ public class UserPlayer : MonoBehaviour
     public Vector3 nowV3;
 
     public Animator Anima;
-    public int Power;
 
     public GameObject Blood, canvas, Weapon;
     public int Score;
+
+    public float Vx, Vz;
 
     // Start is called before the first frame update
     void Start()

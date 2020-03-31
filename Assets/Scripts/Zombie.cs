@@ -21,7 +21,7 @@ public class Zombie : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
 
@@ -36,25 +36,16 @@ public class Zombie : MonoBehaviour
         v3e = new Vector3(moveX, 2f, moveZ);
         v3m = Vector3.Distance(v3s, v3e);
 
-        if (lookplayer)
+        if (lookplayer && Player != null)
         {
-            transform.position = Vector3.Lerp(transform.position, Player.transform.position, (Time.deltaTime * 1.5f));
+            transform.position = Vector3.Lerp(transform.position, Player.transform.position, (Time.deltaTime * 2f));
             transform.LookAt(new Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z));
-
-            if (frameCount_ % 7 == 0)
-            {
-                var msg = new UpdateZombieMessage();
-                var c = GameEngine.Instance.FindZombieData(Id);
-                c.X = transform.position.x;
-                c.Z = transform.position.z;
-                msg.zombie = c;
-                GameEngine.Instance.Send(Message.ZombieLockPlayer, msg);
-            }
+            UpdateZombie();
             locktime += Time.deltaTime;
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, v3e, (Time.deltaTime * 2f) / v3m);
+            transform.position = Vector3.Lerp(transform.position, v3e, (Time.deltaTime * 4f) / v3m);
             transform.LookAt(new Vector3(v3e.x, transform.position.y, v3e.z));
         }
 
@@ -63,8 +54,23 @@ public class Zombie : MonoBehaviour
         BloodUI.GetComponent<RectTransform>().sizeDelta = new Vector2(HP, 1f);
         if (HP == 0) {
             GameObject Clone = Object.Instantiate(ScoreBox) as GameObject;
-            Clone.transform.Translate(this.gameObject.transform.position);
+            Clone.transform.Translate(transform.position);
+            UpdateZombie();
+            GameEngine.Instance.zombieList_.Remove(gameObject.GetComponent<Zombie>());
             Destroy(gameObject);
+        }
+    }
+    void UpdateZombie()
+    {
+        if (frameCount_ % 15 == 0 || HP <= 0)
+        {
+            var msg = new UpdateZombieMessage();
+            var c = GameEngine.Instance.FindZombieData(Id);
+            c.X = transform.position.x;
+            c.Z = transform.position.z;
+            c.HP = HP;
+            msg.zombie = c;
+            GameEngine.Instance.Send(Message.ZombieLockPlayer, msg);
         }
     }
 

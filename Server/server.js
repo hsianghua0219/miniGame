@@ -59,17 +59,15 @@ class Server {
     ws.on('message', data => {
       let d = JSON.parse(data)
       switch (d.Type) {
-        /*case 'killZombie':
-          let msg = JSON.parse(d.Data)
-          this.zombie = this.zombie.filter(c => c.Id !== msg.ZombieId)
-          this.broadcast(ws, data)
-          break*/
         case 'ZombieLockPlayer':
           let z = JSON.parse(d.Data)
           let zb = z.zombie
-          this.Zombie[zb.Id-1].X = zb.X
-          this.Zombie[zb.Id-1].Z = zb.Z
+          this.Zombie = this.Zombie.filter(c => c.Id !== z.zombie.Id)
+          this.Zombie.push(z.zombie)
           this.broadcast(ws, data)
+          if(zb.HP === 0) { 
+            this.Zombie.splice(this.Zombie.findIndex(function(item, index){if(item.Id == zb.Id)return true}), 1)
+          }
           break
         case 'updateUser':
           let msg = JSON.parse(d.Data)
@@ -117,6 +115,8 @@ class Server {
       Angle: 0,
       X: -8 + round(Math.random() * 16, 1000),
       Z: -8 + round(Math.random() * 16, 1000),
+      Vx: undefined,
+      Vz: undefined,
       IsDash: false
     }
   }

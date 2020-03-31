@@ -85,6 +85,7 @@ public class GameEngine : MonoBehaviour
                     var data = JsonUtility.FromJson<UpdateZombieMessage>(msg.Data);
                     var zombieID = FindZombie(data.zombie.Id);
                     if(zombieID.Player == null) zombieID.transform.position = new Vector3(data.zombie.X, 2f, data.zombie.Z);
+                    if(zombieID.HP > data.zombie.HP) zombieID.HP = data.zombie.HP;
                 }
                 break;
             case Message.ActionDamge: 
@@ -120,6 +121,7 @@ public class GameEngine : MonoBehaviour
                     if (player != null && player != Player.UserPlayer)
                     {
                         player.transform.position = new Vector3(data.User.X, player.transform.position.y, data.User.Z);
+                        
                         player.transform.rotation = Quaternion.Euler(0, data.User.Angle, 0);
                         player.HP = data.User.HP;
                     }
@@ -182,15 +184,16 @@ public class GameEngine : MonoBehaviour
 
     void UpdateServerUser()
     {
-        if (frameCount_ % 2 == 0)
+        if (frameCount_ % 14 == 0)
         {
             var msg = new UpdateUserMessage();
             var c = FindUser(Player.UserPlayer.UserId);
             c.X = Player.UserPlayer.transform.position.x;
             c.Z = Player.UserPlayer.transform.position.z;
             c.Angle = Player.UserPlayer.transform.eulerAngles.y;
+            c.Vx = Player.Vx;
+            c.Vz = Player.Vz;
             c.HP = Player.UserPlayer.HP;
-            c.Power = Player.UserPlayer.Power;
             c.IsDash = Player.UserPlayer.IsDash;
             msg.User = c;
             Send(Message.UpdateUser, msg);
@@ -232,7 +235,6 @@ public class GameEngine : MonoBehaviour
         var player = obj.GetComponent<UserPlayer>();
         player.UserId = u.Id;
         player.HP = u.HP;
-        player.Power = u.Power;
         return player;
     }
 
@@ -276,7 +278,6 @@ class GameStartMessage
 class ZombieMessage
 {
     public List<ZombieData> zombie;
-    //public ZombieData Zombie;
 }
 
 [Serializable]
@@ -306,59 +307,21 @@ public struct ActionShotMessage
 [Serializable]
 public struct ActionDamageMessage
 {
-    public int UserId;
-    public int Damage;
+    public int UserId, Damage;
 }
 
 [Serializable]
 public struct UserData
 {
-    public int Id;
-    public string WsName;
-    public string Name;
-    public int HP;
-    public int Power;
-    public float Angle;
-    public float X;
-    public float Z;
+    public int Id, HP;
+    public string WsName, Name;
+    public float X, Z, Vx, Vz, Angle;
     public bool IsDash;
 }
 
 [Serializable]
 public struct ZombieData
 {
-    public int Id;
-    public int HP;
-    public float X;
-    public float Z;
-    public float moveX;
-    public float moveZ;
+    public int Id, HP;
+    public float X, Z, moveX, moveZ;
 }
-
-
-//case Message.Zombie:
-//    {
-//        var data = JsonUtility.FromJson<ZombieMessage>(msg.Data);
-//        var zombie = FindUserPlayer(data.Zombie.Id);
-//        if (zombie != null)
-//        {
-//            CharacterController controller = zombie.GetComponent<CharacterController>();
-//            Vector3 v = Vector3.ClampMagnitude(new Vector3(data.Zombie.X, 0f, data.Zombie.Z) - zombie.transform.position, 1f);
-//            controller.transform.rotation = Quaternion.Euler(0, data.Zombie.Angle, 0);
-//            controller.Move(v);
-//            zombie.HP = data.Zombie.HP;
-//        }
-//        else
-//        {
-//            zombie_.Add(data.Zombie);
-//            zombieList_.Add(CreateZombie(data.Zombie));
-//        }
-//    }
-//    break;
-//case Message.ActionShot: // 弾を撃つ
-//    {
-//        var data = JsonUtility.FromJson<ActionShotMessage>(msg.Data);
-//        var player = FindUserPlayer(data.UserId);
-//        //player.Shot();
-//    }
-//    break;
