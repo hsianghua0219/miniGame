@@ -69,7 +69,7 @@ public class GameEngine : MonoBehaviour
                 {
                     var data = JsonUtility.FromJson<ZombieMessage>(msg.Data);
                     zombie_ = data.zombie;
-                    for (int i = 0; i <= zombie_.Count; i++)
+                    for (int i = 0; i < zombie_.Count; i++)
                     {
                         var zombieID = FindZombie(zombie_[i].Id);
                         if (zombieID != null)

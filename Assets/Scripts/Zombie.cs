@@ -89,8 +89,11 @@ public class Zombie : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && HP>0)
         {
             collision.gameObject.GetComponent<UserPlayer>().HP -= 1;
-            GameObject Clone = Object.Instantiate(Blood) as GameObject;
-            Clone.transform.Translate(Player.transform.position);
+            if (collision.gameObject.GetComponent<UserPlayer>().HP > 0)
+            {
+                GameObject Clone = Object.Instantiate(Blood) as GameObject;
+                Clone.transform.Translate(Player.transform.position);
+            }
         }
     }
 

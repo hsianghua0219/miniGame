@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 point;
     private float time, cdtime;
-    public GameObject ScoreUI, Restart;
+    public GameObject ScoreUI, Restart, miniMap;
 
     public UserPlayer UserPlayer { get; private set; }
 
@@ -29,7 +29,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(UserPlayer == null) return;
+        if(time > 3 && UserPlayer != null) {
+            Vector3 player = UserPlayer.transform.position;
+            player.y = 800f;
+            miniMap.transform.position = player;
+        }
+
+        if (UserPlayer == null) return;
 
         if (UserPlayer.HP <= 0)
         {
