@@ -33,7 +33,7 @@ public class Zombie : MonoBehaviour
             time = 0;
         }
         v3s = transform.position;
-        v3e = new Vector3(moveX, 2f, moveZ);
+        v3e += new Vector3(moveX, 0f, moveZ);
         v3m = Vector3.Distance(v3s, v3e);
 
         if (lookplayer && Player != null)
@@ -62,7 +62,7 @@ public class Zombie : MonoBehaviour
     }
     void UpdateZombie()
     {
-        if (frameCount_ % 15 == 0 || HP <= 0)
+        if (frameCount_ % 30 == 0 || HP <= 0)
         {
             var msg = new UpdateZombieMessage();
             var c = GameEngine.Instance.FindZombieData(Id);
@@ -82,10 +82,15 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other) { if (other.CompareTag("Player")) Anima.Play("ZombieAttack"); }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player")) Anima.Play("ZombieAttack");
+    }
 
     private void OnCollisionStay(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Border")) HP = 0;
+
         if (collision.gameObject.CompareTag("Player") && HP>0)
         {
             collision.gameObject.GetComponent<UserPlayer>().HP -= 1;

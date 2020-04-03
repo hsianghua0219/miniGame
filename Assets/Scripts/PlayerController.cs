@@ -8,14 +8,12 @@ public class PlayerController : MonoBehaviour
     private const int IDLE = 0, WALK = 1, RUN = 2;
     private int gameState = 0;
 
-    private Vector3 point;
-    private float time, cdtime;
+    public Vector3 point;
+    private float time, cdtime, at;
     public GameObject ScoreUI, Restart, miniMap;
 
     public UserPlayer UserPlayer { get; private set; }
-
-    public float Vx, Vz;
-
+    
     public void Init(UserPlayer player)
     {
         UserPlayer = player;
@@ -29,7 +27,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(time > 3 && UserPlayer != null) {
+        UserPlayer.Speed = 0;
+        at += Time.deltaTime;
+
+        if (time > 3 && UserPlayer != null) {
             Vector3 player = UserPlayer.transform.position;
             player.y = 800f;
             miniMap.transform.position = player;
@@ -51,7 +52,13 @@ public class PlayerController : MonoBehaviour
             if (hit.collider.CompareTag("map"))
             {
                 point = hit.point;
-                UserPlayer.transform.LookAt(new Vector3(point.x, UserPlayer.transform.position.y, point.z));
+
+                if (Input.GetMouseButtonDown(1))
+                {
+                    UserPlayer.transform.Rotate(new Vector3(0f, 180f, 0f));
+                    at = 0;
+                }
+                else if( at > 1 ) UserPlayer.transform.LookAt(new Vector3(point.x, UserPlayer.transform.position.y, point.z));
                 if (Time.realtimeSinceStartup - time <= 0.2f) SetGameState(RUN);
                 else SetGameState(WALK);
                 time = Time.realtimeSinceStartup;
@@ -82,6 +89,13 @@ public class PlayerController : MonoBehaviour
             Destroy(rigidbody);
         }
 
+
+        //float t = Time.time;
+        //Quaternion from_qua = Quaternion.Euler(0f, 0f, 0f);
+        //Quaternion to_qua = Quaternion.Euler(0f, 180f, 0f);
+        //if (Input.GetMouseButton(1)) transform.rotation = Quaternion.Slerp(from_qua, to_qua, t);
+        //else transform.rotation = Quaternion.Slerp(to_qua, from_qua, t);
+        
         switch (gameState)
         {
             case IDLE: break;

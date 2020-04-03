@@ -195,9 +195,9 @@ GameObject:
   - component: {fileID: 53154721049747165}
   - component: {fileID: 53154721049747168}
   - component: {fileID: 53154721049747167}
-  - component: {fileID: 53154721049747166}
   - component: {fileID: 53154721049747169}
   - component: {fileID: 5937033148621508781}
+  - component: {fileID: 5318588239490793918}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -212,13 +212,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53154721049747164}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.33333334, y: -0.6, z: 0}
-  m_LocalScale: {x: 0.36666667, y: 0.4, z: 1.1}
+  m_LocalRotation: {x: 0.6963643, y: 0.1227878, z: 0.1227878, w: 0.6963643}
+  m_LocalPosition: {x: 0.3, y: -0.6, z: 0}
+  m_LocalScale: {x: 0.4, y: 0.8, z: 0.1}
   m_Children: []
   m_Father: {fileID: 53154720478441080}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 110, y: -90, z: -90}
 --- !u!33 &53154721049747168
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -264,19 +264,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &53154721049747166
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 53154721049747164}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!108 &53154721049747169
 Light:
   m_ObjectHideFlags: 0
@@ -286,11 +273,11 @@ Light:
   m_GameObject: {fileID: 53154721049747164}
   m_Enabled: 1
   serializedVersion: 8
-  m_Type: 2
+  m_Type: 0
   m_Color: {r: 0.8207547, g: 0.72468585, b: 0.623309, a: 0.3529412}
   m_Intensity: 0
-  m_Range: 60
-  m_SpotAngle: 98
+  m_Range: 20
+  m_SpotAngle: 116
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -327,3 +314,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c24ce435b6ec07048b0a6da896fe00b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5318588239490793918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53154721049747164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dafc90245bfe9e2408e358f71deace2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SampleCount: 24
+  ScatteringCoef: 0.4
+  ExtinctionCoef: 0.01
+  SkyboxExtinctionCoef: 0.9
+  MieG: 0.1
+  HeightFog: 0
+  HeightScale: 0.1
+  GroundLevel: 0
+  Noise: 0
+  NoiseScale: 0.015
+  NoiseIntensity: 1
+  NoiseIntensityOffset: 0.3
+  NoiseVelocity: {x: 3, y: 3}
+  MaxRayLength: 400

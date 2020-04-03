@@ -11,7 +11,7 @@ class Server {
     this.ws.on('connection', this.connectionListener.bind(this))
     p(`server running at port ${port}\n`)
     setInterval((() => {
-      if(this.Zombie.length < 60){
+      if(this.Zombie.length < 40){
         var zombie = this.createZombie()
         this.Zombie.push(zombie)
         this.broadcast(this.ws, JSON.stringify({
@@ -25,8 +25,8 @@ class Server {
     }).bind(this), 1000)
     setInterval((() => {
       for(let i=0;i<this.Zombie.length;i++) {
-        this.Zombie[i].moveX = Math.random() * 600 - 300
-        this.Zombie[i].moveZ = Math.random() * 600 - 300
+        this.Zombie[i].moveX = Math.random() * 700 - 350
+        this.Zombie[i].moveZ = Math.random() * 700 - 350
       }
       this.broadcast(this.ws, JSON.stringify({
         Type: 'ZombieMove',
@@ -43,8 +43,8 @@ class Server {
       HP: 100,
       moveX: Math.random() * 100 - 50,
       moveZ: Math.random() * 100 - 50,
-      X: Math.random() * 600 - 300,
-      Z: Math.random() * 600 - 300,
+      X: Math.random() * 700 - 350,
+      Z: Math.random() * 700 - 350,
     }
   }
 
@@ -115,8 +115,7 @@ class Server {
       Angle: 0,
       X: -8 + round(Math.random() * 16, 1000),
       Z: -8 + round(Math.random() * 16, 1000),
-      Vx: undefined,
-      Vz: undefined,
+      point: undefined,
       IsDash: false
     }
   }

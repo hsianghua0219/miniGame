@@ -27,6 +27,9 @@ public class GameEngine : MonoBehaviour
 
     Stack<Message> messages_ = new Stack<Message>();
 
+    float AngleSave;
+    public float AngleUpdate=10;
+
     void Awake()
     {
         Instance = this;
@@ -37,7 +40,7 @@ public class GameEngine : MonoBehaviour
     public void Init() {
         string hostname = Dns.GetHostName();
         IPAddress[] adrList = Dns.GetHostAddresses(hostname);
-        client_ = new WsClient("ws://192.168.8.54:3000") { OnMessage = OnMessage };//"+ adrList[1].ToString() + "
+        client_ = new WsClient("ws://" + adrList[1].ToString() + ":3000") { OnMessage = OnMessage };
     }
 
     void OnApplicationQuit() { client_.Dispose(); }
@@ -84,15 +87,15 @@ public class GameEngine : MonoBehaviour
                 {
                     var data = JsonUtility.FromJson<UpdateZombieMessage>(msg.Data);
                     var zombieID = FindZombie(data.zombie.Id);
-                    if(zombieID.Player == null) zombieID.transform.position = new Vector3(data.zombie.X, 2f, data.zombie.Z);
-                    if(zombieID.HP > data.zombie.HP) zombieID.HP = data.zombie.HP;
+                    if(zombieID != null && zombieID.Player == null && zombieID.HP > 0) zombieID.transform.position = new Vector3(data.zombie.X, 2f, data.zombie.Z);
+                    if(zombieID != null && zombieID.HP > data.zombie.HP) zombieID.HP = data.zombie.HP;
                 }
                 break;
             case Message.ActionDamge: 
                 {
                     var data = JsonUtility.FromJson<ActionDamageMessage>(msg.Data);
                     var player = FindUserPlayer(data.UserId);
-                    player.Damage(data.Damage);
+                    if(player != null) player.Damage(data.Damage);
 
                     if (player.IsDead)
                     {
@@ -120,10 +123,12 @@ public class GameEngine : MonoBehaviour
                     var player = FindUserPlayer(data.User.Id);
                     if (player != null && player != Player.UserPlayer)
                     {
+                        player.point = data.User.point;
+                        player.nowV3 = new Vector3(data.User.X, player.transform.position.y, data.User.Z);
                         player.transform.position = new Vector3(data.User.X, player.transform.position.y, data.User.Z);
-                        
                         player.transform.rotation = Quaternion.Euler(0, data.User.Angle, 0);
                         player.HP = data.User.HP;
+                        player.updata = true;
                     }
                     else if(player == null)
                     {
@@ -184,19 +189,34 @@ public class GameEngine : MonoBehaviour
 
     void UpdateServerUser()
     {
-        if (frameCount_ % 14 == 0)
+        var c = FindUser(Player.UserPlayer.UserId);
+        if (frameCount_ % 60 == 0)
         {
+            Debug.Log("Update");
             var msg = new UpdateUserMessage();
-            var c = FindUser(Player.UserPlayer.UserId);
             c.X = Player.UserPlayer.transform.position.x;
             c.Z = Player.UserPlayer.transform.position.z;
             c.Angle = Player.UserPlayer.transform.eulerAngles.y;
-            c.Vx = Player.Vx;
-            c.Vz = Player.Vz;
+            c.point = Player.point;
             c.HP = Player.UserPlayer.HP;
             c.IsDash = Player.UserPlayer.IsDash;
             msg.User = c;
             Send(Message.UpdateUser, msg);
+            AngleSave = Player.UserPlayer.transform.eulerAngles.y;
+        }
+        if (frameCount_ % 30 == 0)
+        {
+            if ((Player.UserPlayer.transform.eulerAngles.y - AngleSave) > AngleUpdate || (Player.UserPlayer.transform.eulerAngles.y - AngleSave) < (AngleUpdate * -1))
+            {
+                Debug.Log("Update Angles");
+                var msg = new UpdateUserMessage();
+                c.X = Player.UserPlayer.transform.position.x;
+                c.Z = Player.UserPlayer.transform.position.z;
+                c.Angle = Player.UserPlayer.transform.eulerAngles.y;
+                c.point = Player.point;
+                msg.User = c;
+                Send(Message.UpdateUser, msg);
+            }
         }
         frameCount_++;
     }
@@ -315,7 +335,8 @@ public struct UserData
 {
     public int Id, HP;
     public string WsName, Name;
-    public float X, Z, Vx, Vz, Angle;
+    public float X, Z, Angle;
+    public Vector3 point;
     public bool IsDash;
 }
 
