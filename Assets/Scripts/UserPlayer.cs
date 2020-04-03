@@ -12,10 +12,8 @@ public class UserPlayer : MonoBehaviour
     Vector3 movePosition_;
 
     public Vector3 nowV3, point;
-
-    public Animator Anima;
-
-    public GameObject Blood, canvas, Weapon;
+    
+    public GameObject Blood, canvas, Weapon, ScoreBox;
     public int Score;
 
     public float Speed=20;
@@ -24,7 +22,6 @@ public class UserPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Anima = gameObject.transform.GetChild(0).gameObject.transform.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -42,7 +39,13 @@ public class UserPlayer : MonoBehaviour
 
         if (IsDead)
         {
+            for (int i = Score; i >= 0; i--)
+            {
+                GameObject Clone = Object.Instantiate(ScoreBox) as GameObject;
+                Clone.transform.Translate(transform.position);
+            }
             GameEngine.Instance.Send(Message.ActionDamge, new ActionDamageMessage { UserId = UserId, Damage = 1 });
+            Destroy(gameObject);
         }
         Blood.GetComponent<RectTransform>().sizeDelta = new Vector2(HP, 1f);
         //canvas.transform.LookAt(Camera.main.transform);

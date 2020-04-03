@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.29169276, g: 0.21335313, b: 0.36877772, a: 1}
+  m_IndirectSpecularColor: {r: 0.29150227, g: 0.21308026, b: 0.36861655, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -51,8 +51,8 @@ LightmapSettings:
     m_IndirectOutputScale: 1
     m_AlbedoBoost: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 1
+    m_EnableBakedLightmaps: 0
+    m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 10
     m_Resolution: 2
@@ -71,7 +71,7 @@ LightmapSettings:
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 0
-    m_BakeBackend: 2
+    m_BakeBackend: 0
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 256
@@ -17786,10 +17786,40 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 24
       objectReference: {fileID: 0}
+    - target: {fileID: 1549292619992815837, guid: f4bc71630c61e824ca4fc5c2cc49e26b,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549292619992815837, guid: f4bc71630c61e824ca4fc5c2cc49e26b,
+        type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549292619992815837, guid: f4bc71630c61e824ca4fc5c2cc49e26b,
+        type: 3}
+      propertyPath: m_Shadows.m_Resolution
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1666244040055899015, guid: f4bc71630c61e824ca4fc5c2cc49e26b,
         type: 3}
       propertyPath: m_RootOrder
       value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2288489253049691529, guid: f4bc71630c61e824ca4fc5c2cc49e26b,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2288489253049691529, guid: f4bc71630c61e824ca4fc5c2cc49e26b,
+        type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2288489253049691529, guid: f4bc71630c61e824ca4fc5c2cc49e26b,
+        type: 3}
+      propertyPath: m_Shadows.m_Resolution
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2944820075081230593, guid: f4bc71630c61e824ca4fc5c2cc49e26b,
         type: 3}
@@ -18135,6 +18165,7 @@ MonoBehaviour:
   ZombieObj: {fileID: 3750944910783947382, guid: bc89dbbc80b78ec47ad19e56ba37527f,
     type: 3}
   zombieList_: []
+  AngleUpdate: 20
 --- !u!4 &316206664
 Transform:
   m_ObjectHideFlags: 0
@@ -26078,6 +26109,7 @@ GameObject:
   - component: {fileID: 534669903}
   - component: {fileID: 534669906}
   - component: {fileID: 534669907}
+  - component: {fileID: 534669908}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -26178,6 +26210,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Resolution: 0
   DefaultSpotCookie: {fileID: 2800000, guid: 5157bf6d690b6df458f6c0ce0c06d329, type: 3}
+--- !u!114 &534669908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534669902}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce1c3da3fe6544142981f60e120535a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  positionShake: {x: 0.2, y: 0.2, z: 0.2}
+  angleShake: {x: 0.2, y: 0.2, z: 0.2}
+  cycleTime: 0.2
+  cycleCount: 1
+  fixShake: 0
+  unscaleTime: 0
+  bothDir: 1
+  fCycleCount: 0
+  autoDisable: 1
 --- !u!1 &535668937
 GameObject:
   m_ObjectHideFlags: 0

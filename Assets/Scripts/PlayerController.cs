@@ -53,13 +53,9 @@ public class PlayerController : MonoBehaviour
             {
                 point = hit.point;
 
-                if (Input.GetMouseButtonDown(1))
-                {
-                    UserPlayer.transform.Rotate(new Vector3(0f, 180f, 0f));
-                    at = 0;
-                }
-                else if( at > 1 ) UserPlayer.transform.LookAt(new Vector3(point.x, UserPlayer.transform.position.y, point.z));
-                if (Time.realtimeSinceStartup - time <= 0.2f) SetGameState(RUN);
+                if (Input.GetMouseButtonDown(1) && cdtime > 10) { at = 0; }
+                else if (at > 1) UserPlayer.transform.LookAt(new Vector3(point.x, UserPlayer.transform.position.y, point.z));
+                if (Time.realtimeSinceStartup - time <= 0.2f && at > 1) SetGameState(RUN);
                 else SetGameState(WALK);
                 time = Time.realtimeSinceStartup;
             }
@@ -73,45 +69,46 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0) && cdtime > 0.45)
         {
-            UserPlayer.Anima.Play("Standby");
+            UserPlayer.GetComponent<Animator>().Play("Standby");
         }
         if (Input.GetMouseButtonUp(0) && cdtime > 0.15)
         {
+            SetGameState(IDLE);
             UserPlayer.Weapon.AddComponent<Rigidbody>();
             Rigidbody rigidbody = UserPlayer.Weapon.gameObject.GetComponent<Rigidbody>();
             rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-            UserPlayer.Anima.Play("Attack");
+            UserPlayer.GetComponent<Animator>().Play("Attack");
             cdtime = 0;
         }
-        if (cdtime > 0.45)
+        if (cdtime > 1)
         {
             Rigidbody rigidbody = UserPlayer.Weapon.gameObject.GetComponent<Rigidbody>();
             Destroy(rigidbody);
         }
 
 
-        //float t = Time.time;
-        //Quaternion from_qua = Quaternion.Euler(0f, 0f, 0f);
-        //Quaternion to_qua = Quaternion.Euler(0f, 180f, 0f);
-        //if (Input.GetMouseButton(1)) transform.rotation = Quaternion.Slerp(from_qua, to_qua, t);
-        //else transform.rotation = Quaternion.Slerp(to_qua, from_qua, t);
-        
-        switch (gameState)
+        if (Camera.main.GetComponent<CameraShake>().enabled == false && Camera.main.GetComponent<PlayerCamera>().enabled == false) Camera.main.GetComponent<PlayerCamera>().enabled = true;
+
+        if (Input.GetMouseButtonDown(1) && cdtime > 10)
         {
-            case IDLE: break;
-            case WALK: Move(10f); break;
-            case RUN: Move(20f); break;
+            UserPlayer.Weapon.AddComponent<Rigidbody>();
+            Rigidbody rigidbody = UserPlayer.Weapon.gameObject.GetComponent<Rigidbody>();
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            UserPlayer.GetComponent<Animator>().Play("Skill");
+            cdtime = 0;
+        }
+        else {
+            switch (gameState)
+            {
+                case IDLE: break;
+                case WALK: Move(10f); break;
+                case RUN: Move(20f); break;
+            }
         }
     }
 
     void SetGameState(int state)
     {
-        switch (state)
-        {
-            case IDLE: break;
-            case WALK: break;
-            case RUN: break;
-        }
         gameState = state;
     }
 

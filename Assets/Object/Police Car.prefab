@@ -743,7 +743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafc90245bfe9e2408e358f71deace2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SampleCount: 4
+  SampleCount: 8
   ScatteringCoef: 0.5
   ExtinctionCoef: 0.01
   SkyboxExtinctionCoef: 0.9
@@ -1448,7 +1448,7 @@ Light:
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 1, g: 0.9636511, b: 0.759434, a: 1}
-  m_Intensity: 2
+  m_Intensity: 4
   m_Range: 60
   m_SpotAngle: 60
   m_CookieSize: 10
@@ -1487,20 +1487,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafc90245bfe9e2408e358f71deace2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SampleCount: 24
-  ScatteringCoef: 0.5
-  ExtinctionCoef: 0.01
-  SkyboxExtinctionCoef: 0.9
-  MieG: 0.1
+  SampleCount: 1
+  ScatteringCoef: 0.1
+  ExtinctionCoef: 0
+  SkyboxExtinctionCoef: 0
+  MieG: 0
   HeightFog: 0
-  HeightScale: 0.1
+  HeightScale: 0
   GroundLevel: 0
   Noise: 0
-  NoiseScale: 0.015
-  NoiseIntensity: 1
-  NoiseIntensityOffset: 0.3
-  NoiseVelocity: {x: 3, y: 3}
-  MaxRayLength: 400
+  NoiseScale: 0
+  NoiseIntensity: 0
+  NoiseIntensityOffset: 0
+  NoiseVelocity: {x: 0, y: 0}
+  MaxRayLength: 0
 --- !u!1 &6905253407662681669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1578,7 +1578,7 @@ Light:
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 1, g: 0.9636511, b: 0.759434, a: 1}
-  m_Intensity: 2
+  m_Intensity: 4
   m_Range: 60
   m_SpotAngle: 60
   m_CookieSize: 10
@@ -1617,20 +1617,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafc90245bfe9e2408e358f71deace2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SampleCount: 24
-  ScatteringCoef: 0.5
-  ExtinctionCoef: 0.01
-  SkyboxExtinctionCoef: 0.9
-  MieG: 0.1
+  SampleCount: 1
+  ScatteringCoef: 0.1
+  ExtinctionCoef: 0
+  SkyboxExtinctionCoef: 0
+  MieG: 0
   HeightFog: 0
-  HeightScale: 0.1
+  HeightScale: 0
   GroundLevel: 0
   Noise: 0
-  NoiseScale: 0.015
-  NoiseIntensity: 1
-  NoiseIntensityOffset: 0.3
-  NoiseVelocity: {x: 3, y: 3}
-  MaxRayLength: 400
+  NoiseScale: 0
+  NoiseIntensity: 0
+  NoiseIntensityOffset: 0
+  NoiseVelocity: {x: 0, y: 0}
+  MaxRayLength: 0
 --- !u!1 &8595576613440318349
 GameObject:
   m_ObjectHideFlags: 0

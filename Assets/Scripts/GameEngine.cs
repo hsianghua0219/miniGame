@@ -40,7 +40,7 @@ public class GameEngine : MonoBehaviour
     public void Init() {
         string hostname = Dns.GetHostName();
         IPAddress[] adrList = Dns.GetHostAddresses(hostname);
-        client_ = new WsClient("ws://" + adrList[1].ToString() + ":3000") { OnMessage = OnMessage };
+        client_ = new WsClient("ws://192.168.8.54:3000") { OnMessage = OnMessage };
     }
 
     void OnApplicationQuit() { client_.Dispose(); }

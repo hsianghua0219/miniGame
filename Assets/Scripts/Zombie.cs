@@ -94,6 +94,11 @@ public class Zombie : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && HP>0)
         {
             collision.gameObject.GetComponent<UserPlayer>().HP -= 1;
+            if (Camera.main.GetComponent<CameraShake>().enabled == false)
+            {
+                Camera.main.GetComponent<CameraShake>().enabled = true;
+                Camera.main.GetComponent<PlayerCamera>().enabled = false;
+            }
             if (collision.gameObject.GetComponent<UserPlayer>().HP > 0)
             {
                 GameObject Clone = Object.Instantiate(Blood) as GameObject;
@@ -107,6 +112,7 @@ public class Zombie : MonoBehaviour
         if (collision.gameObject.CompareTag("Weapon"))
         {
             HP -= 35;
+            Anima.Play("ZombieRepel");
         }
     }
 }

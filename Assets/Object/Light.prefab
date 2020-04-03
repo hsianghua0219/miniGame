@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 53154720478441079}
   m_LocalRotation: {x: 0, y: 0, z: 0.026176924, w: 0.99965733}
   m_LocalPosition: {x: 2, y: 0.6, z: 0}
-  m_LocalScale: {x: 8, y: 0.1, z: 1}
+  m_LocalScale: {x: 8, y: 0.1, z: 1.1}
   m_Children:
   - {fileID: 53154721049747165}
   m_Father: {fileID: 53154720529195494}
@@ -213,8 +213,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53154721049747164}
   m_LocalRotation: {x: 0.6963643, y: 0.1227878, z: 0.1227878, w: 0.6963643}
-  m_LocalPosition: {x: 0.3, y: -0.6, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.8, z: 0.1}
+  m_LocalPosition: {x: 0.4078, y: -0.488, z: 0}
+  m_LocalScale: {x: 0.15, y: 0.8, z: 0.1}
   m_Children: []
   m_Father: {fileID: 53154720478441080}
   m_RootOrder: 0
@@ -276,8 +276,8 @@ Light:
   m_Type: 0
   m_Color: {r: 0.8207547, g: 0.72468585, b: 0.623309, a: 0.3529412}
   m_Intensity: 0
-  m_Range: 20
-  m_SpotAngle: 116
+  m_Range: 40
+  m_SpotAngle: 155
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -326,11 +326,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafc90245bfe9e2408e358f71deace2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SampleCount: 24
-  ScatteringCoef: 0.4
-  ExtinctionCoef: 0.01
-  SkyboxExtinctionCoef: 0.9
-  MieG: 0.1
+  SampleCount: 1
+  ScatteringCoef: 0.1
+  ExtinctionCoef: 0
+  SkyboxExtinctionCoef: 0
+  MieG: 0.8
   HeightFog: 0
   HeightScale: 0.1
   GroundLevel: 0
