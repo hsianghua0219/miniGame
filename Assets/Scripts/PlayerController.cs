@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 point;
     private float time, cdtime, at;
-    public GameObject ScoreUI, Restart, miniMap;
+    public GameObject ScoreUI, Restart, miniMap, rufu;
 
     public UserPlayer UserPlayer { get; private set; }
     
@@ -33,6 +33,9 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (cdtime <= 10) rufu.GetComponent<RectTransform>().sizeDelta = new Vector2(cdtime, 15f);
+        else rufu.GetComponent<RectTransform>().sizeDelta = new Vector2(10f, Random.Range(15f,20f));
+
         UserPlayer.Speed = 0;
         at += Time.deltaTime;
 
@@ -47,23 +50,15 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (hit.collider.CompareTag("map"))
+            point = hit.point;
+            point.y = 0f;
+            if (Input.GetMouseButtonDown(1) && cdtime > 10) { at = 0; }
+            else if (at > 1)
             {
-                point = hit.point;
-
-                if (Input.GetMouseButtonDown(1) && cdtime > 10) { at = 0; }
-                else if (at > 1) UserPlayer.transform.LookAt(new Vector3(point.x, UserPlayer.transform.position.y, point.z));
-                if (Time.realtimeSinceStartup - time <= 0.2f && at > 1) SetGameState(RUN);
-                else SetGameState(WALK);
-                time = Time.realtimeSinceStartup;
-            }
-            if (hit.collider.CompareTag("Zombie")&&hit.collider.CompareTag("Player"))
-            {
-                point = hit.point;
-                point.y = 0f;
+                UserPlayer.transform.LookAt(new Vector3(point.x, UserPlayer.transform.position.y, point.z));
                 SetGameState(RUN);
-                time = Time.realtimeSinceStartup;
             }
+            time = Time.realtimeSinceStartup;
         }
         if (Input.GetMouseButtonDown(0) && cdtime > 0.45)
         {

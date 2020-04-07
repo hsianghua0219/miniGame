@@ -28,7 +28,7 @@ public class GameEngine : MonoBehaviour
     Stack<Message> messages_ = new Stack<Message>();
 
     float AngleSave;
-    public float AngleUpdate = 10;
+    public float AngleUpdate = 2.5f;
 
     void Awake()
     {
@@ -196,7 +196,7 @@ public class GameEngine : MonoBehaviour
     void UpdateServerUser()
     {
         var c = FindUser(Player.UserPlayer.UserId);
-        bool v = frameCount_ % 60 == 0 || (Player.UserPlayer.transform.eulerAngles.y - AngleSave) > AngleUpdate && frameCount_ % 20 == 0 || (Player.UserPlayer.transform.eulerAngles.y - AngleSave) < (AngleUpdate * -1) && frameCount_ % 20 == 0;
+        bool v = frameCount_ % 30 == 0 || (Player.UserPlayer.transform.eulerAngles.y - AngleSave) > AngleUpdate && frameCount_ % 3 == 0 || (Player.UserPlayer.transform.eulerAngles.y - AngleSave) < (AngleUpdate * -1) && frameCount_ % 3 == 0;
         if (v)
         {
             var msg = new UpdateUserMessage();

@@ -86,7 +86,7 @@ public class UserPlayer : MonoBehaviour
             updata = false;
         } else {
             CharacterController controller = GetComponent<CharacterController>();
-            Vector3 v = Vector3.ClampMagnitude(point - transform.position, speed * Time.deltaTime);
+            Vector3 v = Vector3.ClampMagnitude(point - nowV3, speed * Time.deltaTime);
             controller.Move(v);
         }
     }

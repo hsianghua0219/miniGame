@@ -12,7 +12,7 @@ public class Zombie : MonoBehaviour
     public float moveX, moveZ;
     Animator Anima;
 
-    private int frameCount_;
+    private readonly int frameCount_;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +23,19 @@ public class Zombie : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HP = Mathf.Clamp(HP, 0, 100);
+        canvas.transform.rotation = Camera.main.transform.rotation;
+        BloodUI.GetComponent<RectTransform>().sizeDelta = new Vector2(HP, 1f);
+        if (HP <= 0)
+        {
+            GameObject Clone = Object.Instantiate(ScoreBox) as GameObject;
+            Clone.transform.Translate(transform.position);
+            UpdateZombie();
+            GameEngine.Instance.zombieList_.Remove(gameObject.GetComponent<Zombie>());
+            Destroy(gameObject);
+            return;
+        }
+
         gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
 
         time += Time.deltaTime;
@@ -47,17 +60,6 @@ public class Zombie : MonoBehaviour
         {
             transform.position = Vector3.Lerp(transform.position, v3e, (Time.deltaTime * 4f) / v3m);
             transform.LookAt(new Vector3(v3e.x, transform.position.y, v3e.z));
-        }
-
-        HP = Mathf.Clamp(HP, 0, 100);
-        canvas.transform.rotation = Camera.main.transform.rotation;
-        BloodUI.GetComponent<RectTransform>().sizeDelta = new Vector2(HP, 1f);
-        if (HP == 0) {
-            GameObject Clone = Object.Instantiate(ScoreBox) as GameObject;
-            Clone.transform.Translate(transform.position);
-            UpdateZombie();
-            GameEngine.Instance.zombieList_.Remove(gameObject.GetComponent<Zombie>());
-            Destroy(gameObject);
         }
     }
     void UpdateZombie()
