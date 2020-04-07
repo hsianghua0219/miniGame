@@ -11,7 +11,7 @@ class Server {
     this.ws.on('connection', this.connectionListener.bind(this))
     p(`server running at port ${port}\n`)
     setInterval((() => {
-      if(this.Zombie.length < 40){
+      if(this.Zombie.length < 1){
         var zombie = this.createZombie()
         this.Zombie.push(zombie)
         this.broadcast(this.ws, JSON.stringify({
@@ -116,6 +116,7 @@ class Server {
       X: -8 + round(Math.random() * 16, 1000),
       Z: -8 + round(Math.random() * 16, 1000),
       point: undefined,
+      Speed: undefined,
       IsDash: false
     }
   }

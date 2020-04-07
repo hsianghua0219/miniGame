@@ -85,20 +85,18 @@ public class Zombie : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player")) Anima.Play("ZombieAttack");
+
+        if (other.CompareTag("MapBox")) gameObject.transform.parent = other.transform;
     }
 
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Border")) HP = 0;
-
+        
         if (collision.gameObject.CompareTag("Player") && HP>0)
         {
             collision.gameObject.GetComponent<UserPlayer>().HP -= 1;
-            if (Camera.main.GetComponent<CameraShake>().enabled == false)
-            {
-                Camera.main.GetComponent<CameraShake>().enabled = true;
-                Camera.main.GetComponent<PlayerCamera>().enabled = false;
-            }
+            if (collision.gameObject == Camera.main.GetComponent<PlayerCamera>().Player) Camera.main.GetComponent<Animator>().Play("CameraShake");
             if (collision.gameObject.GetComponent<UserPlayer>().HP > 0)
             {
                 GameObject Clone = Object.Instantiate(Blood) as GameObject;

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarLight : MonoBehaviour
+public class ScoreBox : MonoBehaviour
 {
+    float time = 5;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +14,7 @@ public class CarLight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        time -= Time.deltaTime;
+        if (time <= 0) Destroy(gameObject);
     }
 }

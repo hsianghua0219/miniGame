@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    public Transform Player;
+    public GameObject Player;
     public float distance = 20.0f, height = 15.0f;
+    int frameCount_;
 
     // Start is called before the first frame update
     void Start()
@@ -21,10 +22,11 @@ public class PlayerCamera : MonoBehaviour
     void LateUpdate()
     {
         if (!Player) return;
-        transform.position = Player.position;
+        transform.position = Player.transform.position;
         transform.position -= Vector3.forward * distance;
         transform.position = new Vector3(transform.position.x, transform.position.y + height, transform.position.z);
-        transform.LookAt(Player);
+        if (frameCount_ % 3 == 0) transform.LookAt(Player.transform);
+        frameCount_++;
     }
 
 }

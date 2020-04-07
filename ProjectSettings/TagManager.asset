@@ -9,6 +9,7 @@ TagManager:
   - ScoreBox
   - Weapon
   - Border
+  - MapBox
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - 
   - PostProcessing
   - Map
-  - 
+  - Player
   - 
   - 
   - 

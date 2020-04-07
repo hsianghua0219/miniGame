@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     private const int IDLE = 0, WALK = 1, RUN = 2;
-    private int gameState = 0;
+    public int gameState = 0;
 
     public Vector3 point;
     private float time, cdtime, at;
@@ -21,27 +21,25 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        //Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Confined;
         SetGameState(IDLE);
     }
 
     void Update()
     {
-        UserPlayer.Speed = 0;
-        at += Time.deltaTime;
-
-        if (time > 3 && UserPlayer != null) {
-            Vector3 player = UserPlayer.transform.position;
-            player.y = 800f;
-            miniMap.transform.position = player;
-        }
-
-        if (UserPlayer == null) return;
-
-        if (UserPlayer.HP <= 0)
+        if (UserPlayer.HP <= 0　|| UserPlayer == null)
         {
             Restart.SetActive(true);
             return;
+        }
+
+        UserPlayer.Speed = 0;
+        at += Time.deltaTime;
+
+        if (time > 3) {
+            Vector3 player = UserPlayer.transform.position;
+            player.y = 10f;
+            miniMap.transform.position = player;
         }
 
         ScoreUI.GetComponent<Text>().text = "" + UserPlayer.Score;
@@ -85,9 +83,6 @@ public class PlayerController : MonoBehaviour
             Rigidbody rigidbody = UserPlayer.Weapon.gameObject.GetComponent<Rigidbody>();
             Destroy(rigidbody);
         }
-
-
-        if (Camera.main.GetComponent<CameraShake>().enabled == false && Camera.main.GetComponent<PlayerCamera>().enabled == false) Camera.main.GetComponent<PlayerCamera>().enabled = true;
 
         if (Input.GetMouseButtonDown(1) && cdtime > 10)
         {

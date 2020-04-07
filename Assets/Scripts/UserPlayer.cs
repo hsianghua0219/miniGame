@@ -16,18 +16,19 @@ public class UserPlayer : MonoBehaviour
     public GameObject Blood, canvas, Weapon, ScoreBox;
     public int Score;
 
-    public float Speed=20;
+    public float Speed;
     float hpAdd;
 
     // Start is called before the first frame update
     void Start()
     {
+        Speed = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Speed > 0) Move(Speed);
+        if (Speed > 0) Move(Speed);
 
         hpAdd += Time.deltaTime;
         HP = Mathf.Clamp(HP, 0, 100);
@@ -78,14 +79,14 @@ public class UserPlayer : MonoBehaviour
 
     void Move(float speed)
     {
-        if (updata) {
+        if (gameObject.transform.GetComponent<Animator>().enabled) gameObject.transform.GetComponent<Animator>().enabled = false;
+        if (updata) // || Mathf.Abs(Vector3.Distance(nowV3, transform.position)) > 1.3f
+        {
             transform.position = nowV3;
             updata = false;
-        }
-        else if (Mathf.Abs(Vector3.Distance(point, transform.position)) >= 1.3f)
-        {
+        } else {
             CharacterController controller = GetComponent<CharacterController>();
-            Vector3 v = Vector3.ClampMagnitude(point - nowV3, speed * Time.deltaTime);
+            Vector3 v = Vector3.ClampMagnitude(point - transform.position, speed * Time.deltaTime);
             controller.Move(v);
         }
     }
