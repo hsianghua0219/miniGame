@@ -122,6 +122,7 @@ public class GameEngine : MonoBehaviour
                 {
                     var data = JsonUtility.FromJson<UpdateUserMessage>(msg.Data);
                     var player = FindUserPlayer(data.User.Id);
+                    bool exists = ((IList)playerList_).Contains(data.User);
                     if (player != null && player != Player.UserPlayer)
                     {
                         player.point = data.User.point;
@@ -135,12 +136,12 @@ public class GameEngine : MonoBehaviour
                             case 1: player.Speed = 10; break;
                             case 2: player.Speed = 20; break;
                         }
-                    }
-                    else if (player == null)
+                    } else if (!exists && player == null)
                     {
                         users_.Add(data.User);
                         playerList_.Add(CreateUserPlayer(data.User));
                     }
+                    
                 }
                 break;
             case Message.ExitUser:
@@ -209,7 +210,7 @@ public class GameEngine : MonoBehaviour
             c.Speed = Player.gameState;
             msg.User = c;
             Send(Message.UpdateUser, msg);
-            if (frameCount_ % 60 == 0) AngleSave = Player.UserPlayer.transform.eulerAngles.y;
+            AngleSave = Player.UserPlayer.transform.eulerAngles.y;
         }
         frameCount_++;
     }

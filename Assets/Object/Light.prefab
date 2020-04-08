@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 53154720478441080}
   - component: {fileID: 53154720478441083}
   - component: {fileID: 53154720478441082}
-  - component: {fileID: 53154720478441081}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -79,19 +78,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &53154720478441081
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 53154720478441079}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &53154720529195493
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,10 +260,10 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 0
-  m_Color: {r: 0.8207547, g: 0.72468585, b: 0.623309, a: 0.3529412}
+  m_Color: {r: 0.9245283, g: 0.8345176, b: 0.73700607, a: 1}
   m_Intensity: 0
-  m_Range: 40
-  m_SpotAngle: 155
+  m_Range: 20
+  m_SpotAngle: 100
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -290,14 +276,14 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 2
+  m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
@@ -321,22 +307,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53154721049747164}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dafc90245bfe9e2408e358f71deace2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SampleCount: 1
-  ScatteringCoef: 0.1
+  ScatteringCoef: 0.3
   ExtinctionCoef: 0
   SkyboxExtinctionCoef: 0
-  MieG: 0.8
+  MieG: 0
   HeightFog: 0
-  HeightScale: 0.1
+  HeightScale: 0
   GroundLevel: 0
   Noise: 0
-  NoiseScale: 0.015
+  NoiseScale: 0
   NoiseIntensity: 1
-  NoiseIntensityOffset: 0.3
-  NoiseVelocity: {x: 3, y: 3}
-  MaxRayLength: 400
+  NoiseIntensityOffset: 0
+  NoiseVelocity: {x: 0, y: 0}
+  MaxRayLength: 0

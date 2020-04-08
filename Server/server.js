@@ -11,7 +11,7 @@ class Server {
     this.ws.on('connection', this.connectionListener.bind(this))
     p(`server running at port ${port}\n`)
     setInterval((() => {
-      if(this.Zombie.length < 20){
+      if(this.Zombie.length < 15){
         var zombie = this.createZombie()
         this.Zombie.push(zombie)
         this.broadcast(this.ws, JSON.stringify({
@@ -74,6 +74,9 @@ class Server {
           this.users = this.users.filter(c => c.Id !== msg.User.Id)
           this.users.push(msg.User)
           this.broadcast(ws, data)
+          if(msg.User.HP === 0) { 
+            this.users.splice(this.users.findIndex(function(item, index){if(item.Id == msg.User.Id)return true}), 1)
+          }
           break
         case 'gameStart':
           let c = this.createUser(d.Data, ws.name)
@@ -113,8 +116,8 @@ class Server {
       HP: 100,
       Score: 0,
       Angle: 0,
-      X: -8 + round(Math.random() * 16, 1000),
-      Z: -8 + round(Math.random() * 16, 1000),
+      X: Math.random() * 100 - 50,
+      Z: Math.random() * 100 - 50,
       point: undefined,
       Speed: undefined,
       IsDash: false

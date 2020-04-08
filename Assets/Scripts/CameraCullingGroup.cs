@@ -9,7 +9,7 @@ public class CameraCullingGroup : MonoBehaviour
 
     [SerializeField] Transform[] targets = null;
 
-    float time = 0;
+    float time = 1;
 
     void Start()
     {

@@ -644,13 +644,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5076111209290823237}
-  m_LocalRotation: {x: -0.5735764, y: 0, z: 0, w: 0.8191521}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.08, y: -0.8, z: -0.25}
   m_LocalScale: {x: 5.4291687, y: 14.881113, z: 14.438556}
   m_Children: []
   m_Father: {fileID: 7444643932004855579}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -70, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!108 &5076111209290823235
 Light:
   m_ObjectHideFlags: 0
@@ -702,7 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SampleCount: 1
-  ScatteringCoef: 0.5
+  ScatteringCoef: 0.3
   ExtinctionCoef: 0
   SkyboxExtinctionCoef: 0
   MieG: 0
