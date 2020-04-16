@@ -33,8 +33,12 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (cdtime <= 10) rufu.GetComponent<RectTransform>().sizeDelta = new Vector2(cdtime, 15f);
-        else rufu.GetComponent<RectTransform>().sizeDelta = new Vector2(10f, Random.Range(15f,20f));
+        if (at <= 10)
+        {
+            rufu.GetComponent<RectTransform>().sizeDelta = new Vector2(at, 15f);
+            rufu.GetComponent<Image>().color = new Color32(255, 183, 2, 255);
+        }
+        else rufu.GetComponent<Image>().color = new Color32(255, 0, 0, 255);
 
         UserPlayer.Speed = 0;
         at += Time.deltaTime;
@@ -52,7 +56,15 @@ public class PlayerController : MonoBehaviour
         {
             point = hit.point;
             point.y = 0f;
-            if (Input.GetMouseButtonDown(1) && cdtime > 10) { at = 0; }
+            if (Input.GetMouseButtonDown(1) && at > 10)
+            {
+                UserPlayer.Weapon.AddComponent<Rigidbody>();
+                Rigidbody rigidbody = UserPlayer.Weapon.gameObject.GetComponent<Rigidbody>();
+                rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                UserPlayer.GetComponent<Animator>().Play("Skill");
+                at = 0;
+                SetGameState(IDLE);
+            }
             else if (at > 1)
             {
                 UserPlayer.transform.LookAt(new Vector3(point.x, UserPlayer.transform.position.y, point.z));
@@ -73,28 +85,18 @@ public class PlayerController : MonoBehaviour
             UserPlayer.GetComponent<Animator>().Play("Attack");
             cdtime = 0;
         }
-        if (cdtime > 1)
+        if (cdtime > 1 && at > 1)
         {
             Rigidbody rigidbody = UserPlayer.Weapon.gameObject.GetComponent<Rigidbody>();
             Destroy(rigidbody);
         }
-
-        if (Input.GetMouseButtonDown(1) && cdtime > 10)
+        switch (gameState)
         {
-            UserPlayer.Weapon.AddComponent<Rigidbody>();
-            Rigidbody rigidbody = UserPlayer.Weapon.gameObject.GetComponent<Rigidbody>();
-            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-            UserPlayer.GetComponent<Animator>().Play("Skill");
-            cdtime = 0;
+            case IDLE: break;
+            case WALK: Move(10f); break;
+            case RUN: Move(20f); break;
         }
-        else {
-            switch (gameState)
-            {
-                case IDLE: break;
-                case WALK: Move(10f); break;
-                case RUN: Move(20f); break;
-            }
-        }
+        
     }
 
     void SetGameState(int state)

@@ -40,8 +40,8 @@ public class GameEngine : MonoBehaviour
     public void Init()
     {
         string hostname = Dns.GetHostName();
-        IPAddress[] adrList = Dns.GetHostAddresses(hostname);
-        client_ = new WsClient("ws://192.168.8.54:3000") { OnMessage = OnMessage };
+        //IPAddress[] adrList = Dns.GetHostAddresses(hostname);
+        client_ = new WsClient("ws://127.0.0.1:3000") { OnMessage = OnMessage };
     }
 
     void OnApplicationQuit() { client_.Dispose(); }
@@ -254,9 +254,9 @@ public class GameEngine : MonoBehaviour
 
     Zombie CreateZombie(ZombieData z)
     {
+        ZombieController zc = gameObject.GetComponent<ZombieController>();
         var obj = Instantiate(ZombieObj);
-        var pos = new Vector3(z.X, 1.5f, z.Z);
-        obj.transform.position = pos;
+        obj.transform.position = zc.ZombieUpdateV3[z.Id];
         obj.SetActive(true);
         var zombie = obj.GetComponent<Zombie>();
         zombie.Id = z.Id;
@@ -283,15 +283,15 @@ public partial struct Message
 [Serializable]
 class GameStartMessage
 {
-    public List<UserData> Users;
-    public List<ZombieData> zombie;
+    public List<UserData> Users = null;
+    public List<ZombieData> zombie = null;
     public UserData Player;
 }
 
 [Serializable]
 class ZombieMessage
 {
-    public List<ZombieData> zombie;
+    public List<ZombieData> zombie = null;
 }
 
 [Serializable]

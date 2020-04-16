@@ -337,7 +337,7 @@ Animator:
   m_GameObject: {fileID: 3750944909969320425}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 79b79bb62ce1a7f49ae059c1814bde74, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -623,6 +623,7 @@ MonoBehaviour:
   canvas: {fileID: 362052532381898076}
   ScoreBox: {fileID: 3502478061453040484, guid: 6186732bd31baaf438f62e05f394d498,
     type: 3}
+  ZombieController: {fileID: 0}
   Id: 0
   HP: 100
   moveX: 0

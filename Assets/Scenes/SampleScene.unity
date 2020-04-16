@@ -5925,7 +5925,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5978,7 +5978,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 7.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -6094,7 +6094,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 15
+      scalar: 20
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6410,7 +6410,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 20
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -6781,7 +6781,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -18149,6 +18149,7 @@ GameObject:
   - component: {fileID: 316206664}
   - component: {fileID: 316206663}
   - component: {fileID: 316206662}
+  - component: {fileID: 316206665}
   m_Layer: 0
   m_Name: GameEngine
   m_TagString: Untagged
@@ -18208,6 +18209,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &316206665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316206661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e87cc8eb43be04565bede7f03fd6bd93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ZombieDatumV3: []
+  ZombieUpdateV3: []
+  ZombieMax: 61
+  RoadMax: 6
+  RoadLength: 600
+  RoadWidth: 40
 --- !u!1 &317256756
 GameObject:
   m_ObjectHideFlags: 0
@@ -61841,6 +61860,80 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1961402127}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1471802433
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3750944910783947376, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947376, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947376, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947376, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947376, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947376, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947376, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947376, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947376, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947376, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947376, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947382, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: m_Name
+      value: Zombie
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750944910783947663, guid: bc89dbbc80b78ec47ad19e56ba37527f,
+        type: 3}
+      propertyPath: ZombieController
+      value: 
+      objectReference: {fileID: 316206661}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bc89dbbc80b78ec47ad19e56ba37527f, type: 3}
 --- !u!1001 &1472527569
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63731,7 +63824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.36320752, b: 0.58857596, a: 0.78431374}
+  m_Color: {r: 0.99215686, g: 0.6666667, b: 0.039215688, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

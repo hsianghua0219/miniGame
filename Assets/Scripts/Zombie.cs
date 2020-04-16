@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
-    public GameObject Player, Blood, BloodUI, canvas, ScoreBox;
+    public GameObject Player, Blood, BloodUI, canvas, ScoreBox, ZombieController;
     private Vector3 v3s, v3e;
-    private float v3m, time = 10, locktime;
+    private float v3m, time = 10;
     private bool lookplayer = false;
     public int Id, HP = 100;
     public float moveX, moveZ;
     Animator Anima;
-
-    private readonly int frameCount_;
+    readonly int frameCount_ = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        ZombieController = GameObject.Find("GameEngine");
         Anima = gameObject.transform.GetComponent<Animator>();
     }
 
@@ -32,8 +32,18 @@ public class Zombie : MonoBehaviour
             Clone.transform.Translate(transform.position);
             UpdateZombie();
             GameEngine.Instance.zombieList_.Remove(gameObject.GetComponent<Zombie>());
+            gameObject.SetActive(false);
             Destroy(gameObject);
             return;
+        }
+
+        ZombieController zc = ZombieController.gameObject.GetComponent<ZombieController>();
+        if (Id < zc.ZombieUpdateV3.Count) {
+            moveX = zc.ZombieUpdateV3[Id].x;
+            moveZ = zc.ZombieUpdateV3[Id].z;
+        } else if (Id >= zc.ZombieUpdateV3.Count) {
+            moveX = zc.ZombieUpdateV3[Id % zc.ZombieMax].x;
+            moveZ = zc.ZombieUpdateV3[Id % zc.ZombieMax].z;
         }
 
         gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
@@ -54,7 +64,6 @@ public class Zombie : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, Player.transform.position, (Time.deltaTime * 2f));
             transform.LookAt(new Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z));
             UpdateZombie();
-            locktime += Time.deltaTime;
         }
         else
         {
